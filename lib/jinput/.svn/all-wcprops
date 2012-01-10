@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput
+END
+jinput-raw_64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput-raw_64.dll
+END
+jinput-dx8.dll
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput-dx8.dll
+END
+jinput.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput.jar
+END
+jinput-wintab.dll
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput-wintab.dll
+END
+libjinput-linux64.so
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/libjinput-linux64.so
+END
+jinput-raw.dll
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput-raw.dll
+END
+jinput-dx8_64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/jinput-dx8_64.dll
+END
+libjinput-linux.so
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/libjinput-linux.so
+END
+libjinput-osx.jnilib
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Submarine/!svn/ver/3/Submarine/lib/jinput/libjinput-osx.jnilib
+END

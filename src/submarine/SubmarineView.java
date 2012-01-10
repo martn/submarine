@@ -1,0 +1,976 @@
+/*
+ * SubmarineView.java
+ */
+package submarine;
+
+import java.awt.Insets;
+import org.jdesktop.application.Action;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.FrameView;
+import org.jdesktop.application.TaskMonitor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import javax.swing.Timer;
+import javax.swing.Icon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+/**
+ * The application's main frame.
+ */
+public class SubmarineView extends FrameView {
+
+    static JTextArea logWindow;
+
+    public SubmarineView(SingleFrameApplication app) {
+        super(app);
+
+        initComponents();
+
+        jButton7.setMargin(new Insets(2, 3, 2, 3));
+
+        Font fontGuifx = FontLoader.getFont("guifx.ttf");
+        Font buttonFont = fontGuifx.deriveFont(14f);
+        
+        jButton11.setFont(buttonFont);
+        jButton19.setFont(buttonFont);
+        jButton5.setFont(buttonFont);
+        jButton6.setFont(buttonFont);
+        jButton17.setFont(buttonFont);
+        jButton18.setFont(buttonFont);
+        jButton20.setFont(buttonFont);
+        jButton16.setFont(buttonFont);
+        jButton8.setFont(buttonFont);
+
+        Font fontKamera = FontLoader.getFont("kameradings.ttf");
+        Font buttonFontKamera = fontKamera.deriveFont(13f);
+
+        jButton10.setFont(buttonFontKamera);
+
+        logWindow = LogTextArea;
+
+        // status bar initialization - message timeout, idle icon and busy animation, etc
+        ResourceMap resourceMap = getResourceMap();
+
+        int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
+        messageTimer = new Timer(messageTimeout, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                // statusMessageLabel.setText("");
+            }
+        });
+
+        messageTimer.setRepeats(false);
+        int busyAnimationRate = resourceMap.getInteger("StatusBar.busyAnimationRate");
+        for (int i = 0; i < busyIcons.length; i++) {
+            busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
+        }
+        busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
+                // statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
+            }
+        });
+        idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
+        // statusAnimationLabel.setIcon(idleIcon);
+        // progressBar.setVisible(false);
+
+        // connecting action tasks to status bar via TaskMonitor
+        TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
+        taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                String propertyName = evt.getPropertyName();
+                if ("started".equals(propertyName)) {
+                    if (!busyIconTimer.isRunning()) {
+                        //   statusAnimationLabel.setIcon(busyIcons[0]);
+                        busyIconIndex = 0;
+                        busyIconTimer.start();
+                    }
+                    // progressBar.setVisible(true);
+                    //  progressBar.setIndeterminate(true);
+                } else if ("done".equals(propertyName)) {
+                    busyIconTimer.stop();
+                    //  statusAnimationLabel.setIcon(idleIcon);
+                    //  progressBar.setVisible(false);
+                    //  progressBar.setValue(0);
+                } else if ("message".equals(propertyName)) {
+                    String text = (String) (evt.getNewValue());
+                    //  statusMessageLabel.setText((text == null) ? "" : text);
+                    messageTimer.restart();
+                } else if ("progress".equals(propertyName)) {
+                    int value = (Integer) (evt.getNewValue());
+                    //     progressBar.setVisible(true);
+                    //    progressBar.setIndeterminate(false);
+                    //    progressBar.setValue(value);
+                }
+            }
+        });
+    }
+
+    @Action
+    public void showAboutBox() {
+        if (aboutBox == null) {
+            JFrame mainFrame = SubmarineApp.getApplication().getMainFrame();
+            aboutBox = new SubmarineAboutBox(mainFrame);
+            aboutBox.setLocationRelativeTo(mainFrame);
+        }
+        SubmarineApp.getApplication().show(aboutBox);
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainPanel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jButtonEngine1Plus = new javax.swing.JButton();
+        jButtonEngine1Minus = new javax.swing.JButton();
+        jLabelEngine1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jButtonEngine2Plus = new javax.swing.JButton();
+        jButtonEngine2Minus = new javax.swing.JButton();
+        jLabelEngine2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jButtonServoPlus = new javax.swing.JButton();
+        jButtonServoMinus = new javax.swing.JButton();
+        jLabelServo = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jButtonServoPlus1 = new javax.swing.JButton();
+        jButtonServoMinus1 = new javax.swing.JButton();
+        jLabelServo1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        LogTextArea = new javax.swing.JTextArea();
+        menuBar = new javax.swing.JMenuBar();
+        javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
+        javax.swing.JMenu helpMenu = new javax.swing.JMenu();
+        javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
+
+        mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setName("jPanel2"); // NOI18N
+        jPanel2.setPreferredSize(new java.awt.Dimension(706, 281));
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(submarine.SubmarineApp.class).getContext().getResourceMap(SubmarineView.class);
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel1.border.title"))); // NOI18N
+        jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(140, 100));
+
+        jButtonEngine1Plus.setText(resourceMap.getString("jButtonEngine1Plus.text")); // NOI18N
+        jButtonEngine1Plus.setName("jButtonEngine1Plus"); // NOI18N
+        jButtonEngine1Plus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEngine1PlusActionPerformed(evt);
+            }
+        });
+
+        jButtonEngine1Minus.setText(resourceMap.getString("jButtonEngine1Minus.text")); // NOI18N
+        jButtonEngine1Minus.setName("jButtonEngine1Minus"); // NOI18N
+        jButtonEngine1Minus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEngine1MinusActionPerformed(evt);
+            }
+        });
+
+        jLabelEngine1.setFont(resourceMap.getFont("jLabelEngine1.font")); // NOI18N
+        jLabelEngine1.setText(resourceMap.getString("jLabelEngine1.text")); // NOI18N
+        jLabelEngine1.setName("jLabelEngine1"); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonEngine1Minus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEngine1Plus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelEngine1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEngine1Plus)
+                    .addComponent(jLabelEngine1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonEngine1Minus)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel3.border.title"))); // NOI18N
+        jPanel3.setName("jPanel3"); // NOI18N
+        jPanel3.setPreferredSize(new java.awt.Dimension(140, 100));
+
+        jButtonEngine2Plus.setText(resourceMap.getString("jButtonEngine2Plus.text")); // NOI18N
+        jButtonEngine2Plus.setName("jButtonEngine2Plus"); // NOI18N
+        jButtonEngine2Plus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEngine2PlusActionPerformed(evt);
+            }
+        });
+
+        jButtonEngine2Minus.setText(resourceMap.getString("jButtonEngine2Minus.text")); // NOI18N
+        jButtonEngine2Minus.setName("jButtonEngine2Minus"); // NOI18N
+        jButtonEngine2Minus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEngine2MinusActionPerformed(evt);
+            }
+        });
+
+        jLabelEngine2.setFont(resourceMap.getFont("jLabelEngine2.font")); // NOI18N
+        jLabelEngine2.setText(resourceMap.getString("jLabelEngine2.text")); // NOI18N
+        jLabelEngine2.setName("jLabelEngine2"); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonEngine2Minus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEngine2Plus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jLabelEngine2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEngine2Plus)
+                    .addComponent(jLabelEngine2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonEngine2Minus)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel4.border.title"))); // NOI18N
+        jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setPreferredSize(new java.awt.Dimension(140, 100));
+
+        jButtonServoPlus.setText(resourceMap.getString("jButtonServoPlus.text")); // NOI18N
+        jButtonServoPlus.setName("jButtonServoPlus"); // NOI18N
+        jButtonServoPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonServoPlusActionPerformed(evt);
+            }
+        });
+
+        jButtonServoMinus.setText(resourceMap.getString("jButtonServoMinus.text")); // NOI18N
+        jButtonServoMinus.setName("jButtonServoMinus"); // NOI18N
+        jButtonServoMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonServoMinusActionPerformed(evt);
+            }
+        });
+
+        jLabelServo.setFont(resourceMap.getFont("jLabelServo.font")); // NOI18N
+        jLabelServo.setText(resourceMap.getString("jLabelServo.text")); // NOI18N
+        jLabelServo.setName("jLabelServo"); // NOI18N
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonServoMinus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonServoPlus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jLabelServo, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonServoPlus)
+                    .addComponent(jLabelServo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonServoMinus)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel5.border.title"))); // NOI18N
+        jPanel5.setName("jPanel5"); // NOI18N
+        jPanel5.setPreferredSize(new java.awt.Dimension(140, 100));
+
+        jButtonServoPlus1.setText(resourceMap.getString("jButtonServoPlus1.text")); // NOI18N
+        jButtonServoPlus1.setName("jButtonServoPlus1"); // NOI18N
+        jButtonServoPlus1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonServoPlus1ActionPerformed(evt);
+            }
+        });
+
+        jButtonServoMinus1.setText(resourceMap.getString("jButtonServoMinus1.text")); // NOI18N
+        jButtonServoMinus1.setName("jButtonServoMinus1"); // NOI18N
+        jButtonServoMinus1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonServoMinus1ActionPerformed(evt);
+            }
+        });
+
+        jLabelServo1.setFont(resourceMap.getFont("jLabelServo1.font")); // NOI18N
+        jLabelServo1.setText(resourceMap.getString("jLabelServo1.text")); // NOI18N
+        jLabelServo1.setName("jLabelServo1"); // NOI18N
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonServoMinus1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonServoPlus1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jLabelServo1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonServoPlus1)
+                    .addComponent(jLabelServo1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonServoMinus1)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel6.border.title"))); // NOI18N
+        jPanel6.setName("jPanel6"); // NOI18N
+
+        jButton5.setFont(resourceMap.getFont("jButton1_Camera.font")); // NOI18N
+        jButton5.setText(resourceMap.getString("jButton1_Camera.text")); // NOI18N
+        jButton5.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton5.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton5.setName("jButton1_Camera"); // NOI18N
+        jButton5.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton1Left_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton1Left_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton6.setFont(resourceMap.getFont("jButton2_Camera.font")); // NOI18N
+        jButton6.setText(resourceMap.getString("jButton2_Camera.text")); // NOI18N
+        jButton6.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton6.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton6.setName("jButton2_Camera"); // NOI18N
+        jButton6.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton2Down_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton2Down_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton7.setFont(resourceMap.getFont("jButton3_Camera.font")); // NOI18N
+        jButton7.setText(resourceMap.getString("jButton3_Camera.text")); // NOI18N
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton7.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton7.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton7.setName("jButton3_Camera"); // NOI18N
+        jButton7.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton3Menu_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton3Menu_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton8.setFont(resourceMap.getFont("jButton4_Camera.font")); // NOI18N
+        jButton8.setText(resourceMap.getString("jButton4_Camera.text")); // NOI18N
+        jButton8.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton8.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton8.setName("jButton4_Camera"); // NOI18N
+        jButton8.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton4Cancel_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton4Cancel_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton10.setFont(resourceMap.getFont("jButton10_Camera.font")); // NOI18N
+        jButton10.setText(resourceMap.getString("jButton10_Camera.text")); // NOI18N
+        jButton10.setName("jButton10_Camera"); // NOI18N
+        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton10Shot_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton10Shot_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton11.setFont(resourceMap.getFont("jButton11_Camera.font")); // NOI18N
+        jButton11.setText(resourceMap.getString("jButton11_Camera.text")); // NOI18N
+        jButton11.setName("jButton11_Camera"); // NOI18N
+        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton11Rec_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton11Rec_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton12.setFont(resourceMap.getFont("jButton12_Camera.font")); // NOI18N
+        jButton12.setText(resourceMap.getString("jButton12_Camera.text")); // NOI18N
+        jButton12.setName("jButton12_Camera"); // NOI18N
+        jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton12F_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton12F_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton13.setFont(resourceMap.getFont("jButton13_Camera.font")); // NOI18N
+        jButton13.setText(resourceMap.getString("jButton13_Camera.text")); // NOI18N
+        jButton13.setName("jButton13_Camera"); // NOI18N
+        jButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton13Fplus_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton13Fplus_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton14.setFont(resourceMap.getFont("jButton14_Camera.font")); // NOI18N
+        jButton14.setText(resourceMap.getString("jButton14_Camera.text")); // NOI18N
+        jButton14.setName("jButton14_Camera"); // NOI18N
+        jButton14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton14ZoomPlus_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton14ZoomPlus_CAmeraMouseReleased(evt);
+            }
+        });
+
+        jButton15.setFont(resourceMap.getFont("jButton15_Camera.font")); // NOI18N
+        jButton15.setText(resourceMap.getString("jButton15_Camera.text")); // NOI18N
+        jButton15.setName("jButton15_Camera"); // NOI18N
+        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton15ZoomMinus_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton15ZoomMinus_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton16.setFont(resourceMap.getFont("jButton16_Camera.font")); // NOI18N
+        jButton16.setText(resourceMap.getString("jButton16_Camera.text")); // NOI18N
+        jButton16.setName("jButton16_Camera"); // NOI18N
+        jButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton16Power_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton16Power_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton17.setFont(resourceMap.getFont("jButton5_Camera.font")); // NOI18N
+        jButton17.setText(resourceMap.getString("jButton5_Camera.text")); // NOI18N
+        jButton17.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton17.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton17.setName("jButton5_Camera"); // NOI18N
+        jButton17.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton5Right_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton5Right_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton18.setFont(resourceMap.getFont("jButton8_Camera.font")); // NOI18N
+        jButton18.setText(resourceMap.getString("jButton8_Camera.text")); // NOI18N
+        jButton18.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton18.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton18.setName("jButton8_Camera"); // NOI18N
+        jButton18.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton8Ok_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton8Ok_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton19.setFont(resourceMap.getFont("jButton7_Camera.font")); // NOI18N
+        jButton19.setText(resourceMap.getString("jButton7_Camera.text")); // NOI18N
+        jButton19.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton19.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton19.setName("jButton7_Camera"); // NOI18N
+        jButton19.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton7Play_CameraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton7Play_CameraMouseReleased(evt);
+            }
+        });
+
+        jButton20.setFont(resourceMap.getFont("jButton6_Camera.font")); // NOI18N
+        jButton20.setText(resourceMap.getString("jButton6_Camera.text")); // NOI18N
+        jButton20.setMaximumSize(new java.awt.Dimension(47, 23));
+        jButton20.setMinimumSize(new java.awt.Dimension(47, 23));
+        jButton20.setName("jButton6_Camera"); // NOI18N
+        jButton20.setPreferredSize(new java.awt.Dimension(47, 23));
+        jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton6Up_CAmeraMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton6Up_CameraMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton13))
+                            .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton15)
+                            .addComponent(jButton14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton11)
+                            .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton10))
+                .addGap(3, 3, 3)
+                .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        LogTextArea.setColumns(20);
+        LogTextArea.setEditable(false);
+        LogTextArea.setRows(5);
+        LogTextArea.setName("LogTextArea"); // NOI18N
+        LogTextArea.setPreferredSize(null);
+        jScrollPane1.setViewportView(LogTextArea);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)))
+                .addGap(171, 171, 171))
+        );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel1, jPanel3, jPanel4, jPanel5});
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel1, jPanel3, jPanel4, jPanel5});
+
+        jPanel4.getAccessibleContext().setAccessibleName(resourceMap.getString("jPanel4.AccessibleContext.accessibleName")); // NOI18N
+        jPanel5.getAccessibleContext().setAccessibleName(resourceMap.getString("jPanel5.AccessibleContext.accessibleName")); // NOI18N
+
+        mainPanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 563, 551));
+
+        menuBar.setName("menuBar"); // NOI18N
+
+        fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
+        fileMenu.setName("fileMenu"); // NOI18N
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(submarine.SubmarineApp.class).getContext().getActionMap(SubmarineView.class, this);
+        exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        fileMenu.add(exitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
+        helpMenu.setName("helpMenu"); // NOI18N
+
+        aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
+        aboutMenuItem.setName("aboutMenuItem"); // NOI18N
+        helpMenu.add(aboutMenuItem);
+
+        menuBar.add(helpMenu);
+
+        setComponent(mainPanel);
+        setMenuBar(menuBar);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonEngine1PlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEngine1PlusActionPerformed
+        jLabelEngine1.setText(SubmarineApp.submarine.incrementEngineSpeed(0) + " ");
+    }//GEN-LAST:event_jButtonEngine1PlusActionPerformed
+
+    private void jButtonEngine1MinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEngine1MinusActionPerformed
+        jLabelEngine1.setText(SubmarineApp.submarine.decrementEngineSpeed(0) + " ");
+    }//GEN-LAST:event_jButtonEngine1MinusActionPerformed
+
+    private void jButtonServoPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServoPlusActionPerformed
+        jLabelServo.setText(SubmarineApp.submarine.incrementServoPosition(0) + " ");
+    }//GEN-LAST:event_jButtonServoPlusActionPerformed
+
+    private void jButtonServoMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServoMinusActionPerformed
+        jLabelServo.setText(SubmarineApp.submarine.decrementServoPosition(0) + " ");
+    }//GEN-LAST:event_jButtonServoMinusActionPerformed
+
+    private void jButtonEngine2PlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEngine2PlusActionPerformed
+        jLabelEngine2.setText(SubmarineApp.submarine.incrementEngineSpeed(1) + " ");
+    }//GEN-LAST:event_jButtonEngine2PlusActionPerformed
+
+    private void jButtonEngine2MinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEngine2MinusActionPerformed
+        jLabelEngine2.setText(SubmarineApp.submarine.decrementEngineSpeed(1) + " ");
+    }//GEN-LAST:event_jButtonEngine2MinusActionPerformed
+
+    private void jButtonServoPlus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServoPlus1ActionPerformed
+        jLabelServo1.setText(SubmarineApp.submarine.incrementServoPosition(1) + " ");
+    }//GEN-LAST:event_jButtonServoPlus1ActionPerformed
+
+    private void jButtonServoMinus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServoMinus1ActionPerformed
+        jLabelServo1.setText(SubmarineApp.submarine.decrementServoPosition(1) + " ");
+    }//GEN-LAST:event_jButtonServoMinus1ActionPerformed
+
+    private void jButton12F_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12F_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(12);
+    }//GEN-LAST:event_jButton12F_CameraMousePressed
+
+    private void jButton12F_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12F_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton12F_CameraMouseReleased
+
+    private void jButton16Power_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16Power_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(16);
+    }//GEN-LAST:event_jButton16Power_CameraMousePressed
+
+    private void jButton16Power_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16Power_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton16Power_CameraMouseReleased
+
+    private void jButton13Fplus_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13Fplus_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(13);
+    }//GEN-LAST:event_jButton13Fplus_CameraMousePressed
+
+    private void jButton13Fplus_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13Fplus_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton13Fplus_CameraMouseReleased
+
+    private void jButton15ZoomMinus_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15ZoomMinus_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(15);
+    }//GEN-LAST:event_jButton15ZoomMinus_CameraMousePressed
+
+    private void jButton15ZoomMinus_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15ZoomMinus_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton15ZoomMinus_CameraMouseReleased
+
+    private void jButton14ZoomPlus_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14ZoomPlus_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(14);
+    }//GEN-LAST:event_jButton14ZoomPlus_CameraMousePressed
+
+    private void jButton14ZoomPlus_CAmeraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14ZoomPlus_CAmeraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton14ZoomPlus_CAmeraMouseReleased
+
+    private void jButton10Shot_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10Shot_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(10);
+    }//GEN-LAST:event_jButton10Shot_CameraMousePressed
+
+    private void jButton10Shot_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10Shot_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton10Shot_CameraMouseReleased
+
+    private void jButton11Rec_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11Rec_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(11);
+    }//GEN-LAST:event_jButton11Rec_CameraMousePressed
+
+    private void jButton11Rec_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11Rec_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton11Rec_CameraMouseReleased
+
+    private void jButton7Play_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7Play_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(7);
+    }//GEN-LAST:event_jButton7Play_CameraMousePressed
+
+    private void jButton7Play_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7Play_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton7Play_CameraMouseReleased
+
+    private void jButton6Up_CAmeraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6Up_CAmeraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(6);
+    }//GEN-LAST:event_jButton6Up_CAmeraMousePressed
+
+    private void jButton6Up_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6Up_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton6Up_CameraMouseReleased
+
+    private void jButton1Left_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1Left_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(1);
+    }//GEN-LAST:event_jButton1Left_CameraMousePressed
+
+    private void jButton1Left_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1Left_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton1Left_CameraMouseReleased
+
+    private void jButton5Right_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5Right_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(5);
+    }//GEN-LAST:event_jButton5Right_CameraMousePressed
+
+    private void jButton5Right_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5Right_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton5Right_CameraMouseReleased
+
+    private void jButton2Down_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2Down_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(2);
+    }//GEN-LAST:event_jButton2Down_CameraMousePressed
+
+    private void jButton2Down_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2Down_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton2Down_CameraMouseReleased
+
+    private void jButton8Ok_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8Ok_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(8);
+    }//GEN-LAST:event_jButton8Ok_CameraMousePressed
+
+    private void jButton8Ok_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8Ok_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton8Ok_CameraMouseReleased
+
+    private void jButton3Menu_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3Menu_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(3);
+    }//GEN-LAST:event_jButton3Menu_CameraMousePressed
+
+    private void jButton3Menu_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3Menu_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton3Menu_CameraMouseReleased
+
+    private void jButton4Cancel_CameraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4Cancel_CameraMousePressed
+        // TODO add your handling code here:
+        SubmarineApp.submarine.pushCameraButton(4);
+    }//GEN-LAST:event_jButton4Cancel_CameraMousePressed
+
+    private void jButton4Cancel_CameraMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4Cancel_CameraMouseReleased
+        // TODO add your handling code here:
+        SubmarineApp.submarine.releaseCameraButtons();
+    }//GEN-LAST:event_jButton4Cancel_CameraMouseReleased
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea LogTextArea;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButtonEngine1Minus;
+    private javax.swing.JButton jButtonEngine1Plus;
+    private javax.swing.JButton jButtonEngine2Minus;
+    private javax.swing.JButton jButtonEngine2Plus;
+    private javax.swing.JButton jButtonServoMinus;
+    private javax.swing.JButton jButtonServoMinus1;
+    private javax.swing.JButton jButtonServoPlus;
+    private javax.swing.JButton jButtonServoPlus1;
+    private javax.swing.JLabel jLabelEngine1;
+    private javax.swing.JLabel jLabelEngine2;
+    private javax.swing.JLabel jLabelServo;
+    private javax.swing.JLabel jLabelServo1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    // End of variables declaration//GEN-END:variables
+    private final Timer messageTimer;
+    private final Timer busyIconTimer;
+    private final Icon idleIcon;
+    private final Icon[] busyIcons = new Icon[15];
+    private int busyIconIndex = 0;
+    private JDialog aboutBox;
+}
