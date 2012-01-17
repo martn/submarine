@@ -28,8 +28,13 @@ public class Submarine {
     public static final byte ADRESS_ENGINES = 1;
     public static final byte ADRESS_POWER = 9;
     public static final int CAMERA_RELEASE_DELAY = 400;
+    
+    public static final int ID_SERVO_HORIZONTAL = 0;
+    public static final int ID_SERVO_VERTICAL = 1;
+    
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
+    private javax.swing.JLabel[] servoLabels;
     private byte power_config = 0;
     public SubmarinePort port;
     public Controller controler;
@@ -40,14 +45,13 @@ public class Submarine {
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
         port = new SubmarinePort(config);
-        
+
         try {
             gamepad = new Gamepad(this);
-            
-        } catch(GamepadNotFoundException e) {
+
+        } catch (GamepadNotFoundException e) {
             Util.log.write(e.getMessage());
         }
-
 
         // prepare variables
         for (int i = 0; i < engine_speeds.length; i++) {
@@ -57,6 +61,8 @@ public class Submarine {
         for (int i = 0; i < servo_position.length; i++) {
             servo_position[i] = 0;
         }
+        
+        
     }
 
     /**
@@ -67,11 +73,10 @@ public class Submarine {
     public void pushCameraButton(int number) {
         if (number >= 1 & number <= 16) {
             // if in range
-
             port.setAdress(ADRESS_CAMERA);
             port.setData((byte) number);
 
-            //           cameraBtnReleaseTimer.schedule(new CameraButtonReleaseTask(this), CAMERA_RELEASE_DELAY);
+            // cameraBtnReleaseTimer.schedule(new CameraButtonReleaseTask(this), CAMERA_RELEASE_DELAY);
         }
     }
 
@@ -115,7 +120,6 @@ public class Submarine {
             port.setAdress((byte) (ADRESS_ENGINES + id));
 
             int polarity = speed < 0 ? 64 : 0;
-
             port.setData((byte) (polarity | (Math.abs(speed) * 63 / ENGINE_RESOLUTION)));
 
             return speed;
@@ -166,11 +170,14 @@ public class Submarine {
     public int setServoPosition(int id, int position) {
         if (position <= SERVO_RESOLUTION & position >= -SERVO_RESOLUTION) {
 
-            servo_position[id] = position;
+            if (servo_position[id] != position) {
+                // if last position is different
+                
+                servo_position[id] = position;
 
-            port.setAdress((byte) (ADRESS_SERVOS + id));
-            port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
-
+                port.setAdress((byte) (ADRESS_SERVOS + id));
+                port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
+            }
             return position;
         } else {
             return position > 0 ? SERVO_RESOLUTION : -SERVO_RESOLUTION;
@@ -192,6 +199,4 @@ public class Submarine {
     public int getEngineSpeed(int id) {
         return engine_speeds[id];
     }
-
-    
 }

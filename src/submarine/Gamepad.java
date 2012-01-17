@@ -20,7 +20,7 @@ import net.java.games.input.Rumbler;
 public class Gamepad {
 
     public GamePadController gpController;
-    private static final int DELAY = 40;   // ms (polling interval)
+    private static final int DELAY = 50;   // ms (polling interval)
     // needs to be fast to catch fast button pressing!
     private Timer pollTimer;   // timer which triggers the polling
     private Submarine submarine;
@@ -31,11 +31,43 @@ public class Gamepad {
         submarine = subm;
 
         printDetails(getController(), System.out);
+
+        startPolling();
     }
 
     public Controller getController() {
         return gpController.getController();
     }
+
+    public void updateData() {
+        // System.out.println("polling...");
+        gpController.poll();
+
+        // update the GUI:
+        // get POV hat compass direction
+        int compassDir = gpController.getHatDir();
+        //hatPanel.setCompass(compassDir);
+
+        // get compass direction for the two analog sticks
+        float xyValue[] = gpController.getXYStickValue();
+        //xyPanel.setCompass(compassDir);
+
+        // ========== Servo =============================
+        float zrValue[] = gpController.getZRZStickValue();
+        //zrzPanel.setCompass(compassDir);
+        //System.out.println("0: " + zrValue[0] + " 1: " + zrValue[1]);
+
+        submarine.setServoPosition(Submarine.ID_SERVO_HORIZONTAL, 
+               (int)(zrValue[0]*Submarine.SERVO_RESOLUTION));
+        
+        submarine.setServoPosition(Submarine.ID_SERVO_VERTICAL, 
+               (int)(-zrValue[1]*Submarine.SERVO_RESOLUTION));
+
+        // get button settings
+        boolean[] buttons = gpController.getButtons();
+        //buttonsPanel.setButtons(buttons);
+    }
+    
 
     private void startPolling() /* Set up a timer which is activated every DELAY ms
     and polls the game pad and updates the GUI. 
@@ -44,24 +76,7 @@ public class Gamepad {
         ActionListener pollPerformer = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("polling...");
-                gpController.poll();
-
-                // update the GUI:
-                // get POV hat compass direction
-                int compassDir = gpController.getHatDir();
-                //hatPanel.setCompass(compassDir);
-
-                // get compass direction for the two analog sticks
-                float xyValue[] = gpController.getXYStickValue();
-                //xyPanel.setCompass(compassDir);
-
-                float zrValue[] = gpController.getZRZStickValue();
-                //zrzPanel.setCompass(compassDir);
-
-                // get button settings
-                boolean[] buttons = gpController.getButtons();
-                //buttonsPanel.setButtons(buttons);
+                updateData();
             }
         };
 
@@ -108,7 +123,6 @@ public class Gamepad {
         return ps;
     }  // end of getPrintStream()
 
-    
     private static void printDetails(Controller c, PrintStream ps) /* Report the component and rumbler information for the gpController c.
     A gpController may contain subcontrollers (e.g. the mouse), so
     recursively visit them, and report their details as well.

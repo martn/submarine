@@ -232,6 +232,7 @@
                     </TitledBorder>
                   </Border>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="jPanel4" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[140, 100]"/>
@@ -275,6 +276,7 @@
                 <Component class="javax.swing.JButton" name="jButtonServoPlus">
                   <Properties>
                     <Property name="text" type="java.lang.String" resourceKey="jButtonServoPlus.text"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="jButtonServoPlus" noResource="true"/>
                   </Properties>
                   <Events>
@@ -284,6 +286,7 @@
                 <Component class="javax.swing.JButton" name="jButtonServoMinus">
                   <Properties>
                     <Property name="text" type="java.lang.String" resourceKey="jButtonServoMinus.text"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="jButtonServoMinus" noResource="true"/>
                   </Properties>
                   <Events>
@@ -308,6 +311,7 @@
                     </TitledBorder>
                   </Border>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="jPanel5" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[140, 100]"/>
@@ -351,6 +355,7 @@
                 <Component class="javax.swing.JButton" name="jButtonServoPlus1">
                   <Properties>
                     <Property name="text" type="java.lang.String" resourceKey="jButtonServoPlus1.text"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="jButtonServoPlus1" noResource="true"/>
                   </Properties>
                   <Events>
@@ -360,6 +365,7 @@
                 <Component class="javax.swing.JButton" name="jButtonServoMinus1">
                   <Properties>
                     <Property name="text" type="java.lang.String" resourceKey="jButtonServoMinus1.text"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="jButtonServoMinus1" noResource="true"/>
                   </Properties>
                   <Events>

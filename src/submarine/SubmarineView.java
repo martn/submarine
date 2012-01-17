@@ -289,10 +289,12 @@ public class SubmarineView extends FrameView {
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel4.border.title"))); // NOI18N
+        jPanel4.setEnabled(false);
         jPanel4.setName("jPanel4"); // NOI18N
         jPanel4.setPreferredSize(new java.awt.Dimension(140, 100));
 
         jButtonServoPlus.setText(resourceMap.getString("jButtonServoPlus.text")); // NOI18N
+        jButtonServoPlus.setEnabled(false);
         jButtonServoPlus.setName("jButtonServoPlus"); // NOI18N
         jButtonServoPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,6 +303,7 @@ public class SubmarineView extends FrameView {
         });
 
         jButtonServoMinus.setText(resourceMap.getString("jButtonServoMinus.text")); // NOI18N
+        jButtonServoMinus.setEnabled(false);
         jButtonServoMinus.setName("jButtonServoMinus"); // NOI18N
         jButtonServoMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,10 +341,12 @@ public class SubmarineView extends FrameView {
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel5.border.title"))); // NOI18N
+        jPanel5.setEnabled(false);
         jPanel5.setName("jPanel5"); // NOI18N
         jPanel5.setPreferredSize(new java.awt.Dimension(140, 100));
 
         jButtonServoPlus1.setText(resourceMap.getString("jButtonServoPlus1.text")); // NOI18N
+        jButtonServoPlus1.setEnabled(false);
         jButtonServoPlus1.setName("jButtonServoPlus1"); // NOI18N
         jButtonServoPlus1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -350,6 +355,7 @@ public class SubmarineView extends FrameView {
         });
 
         jButtonServoMinus1.setText(resourceMap.getString("jButtonServoMinus1.text")); // NOI18N
+        jButtonServoMinus1.setEnabled(false);
         jButtonServoMinus1.setName("jButtonServoMinus1"); // NOI18N
         jButtonServoMinus1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
