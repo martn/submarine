@@ -6,7 +6,14 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Timer;
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+import net.java.games.input.Rumbler;
 
 /**
  *
@@ -25,12 +32,22 @@ public class Submarine {
     private int[] servo_position = new int[2];
     private byte power_config = 0;
     public SubmarinePort port;
+    public Controller controler;
+    public Gamepad gamepad;
     private Configuration config;
     private Timer cameraBtnReleaseTimer = new Timer();  // timer for button release
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
         port = new SubmarinePort(config);
+        
+        try {
+            gamepad = new Gamepad(this);
+            
+        } catch(GamepadNotFoundException e) {
+            Util.log.write(e.getMessage());
+        }
+
 
         // prepare variables
         for (int i = 0; i < engine_speeds.length; i++) {
@@ -39,7 +56,7 @@ public class Submarine {
 
         for (int i = 0; i < servo_position.length; i++) {
             servo_position[i] = 0;
-        }        
+        }
     }
 
     /**
@@ -76,11 +93,11 @@ public class Submarine {
         byte conf = (byte) (1 << (number - 1));
 
         power_config = value ? (byte) (power_config | conf) : (byte) (power_config & ~conf);
-        
+
         port.setAdress(ADRESS_POWER);
-        
+
         // invert, zero last bit
-        port.setData((byte)(~power_config & 127));
+        port.setData((byte) (~power_config & 127));
     }
 
     /**
@@ -175,4 +192,6 @@ public class Submarine {
     public int getEngineSpeed(int id) {
         return engine_speeds[id];
     }
+
+    
 }
