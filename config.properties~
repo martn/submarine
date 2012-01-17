@@ -1,0 +1,6 @@
+# COM port
+portId = com8
+portBaud = 19200
+portDataBits = 8
+portStopBits = 1
+portParity = none
