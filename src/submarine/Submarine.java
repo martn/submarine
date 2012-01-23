@@ -28,10 +28,10 @@ public class Submarine {
     public static final byte ADRESS_ENGINES = 1;
     public static final byte ADRESS_POWER = 9;
     public static final int CAMERA_RELEASE_DELAY = 400;
-    
-    public static final int ID_SERVO_HORIZONTAL = 0;
-    public static final int ID_SERVO_VERTICAL = 1;
-    
+    public static final int SERVO_HORIZONTAL = 0;
+    public static final int SERVO_VERTICAL = 1;
+    public static final int ENGINE_LEFT = 0;
+    public static final int ENGINE_RIGHT = 1;
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
     private javax.swing.JLabel[] servoLabels;
@@ -61,8 +61,6 @@ public class Submarine {
         for (int i = 0; i < servo_position.length; i++) {
             servo_position[i] = 0;
         }
-        
-        
     }
 
     /**
@@ -105,6 +103,48 @@ public class Submarine {
         port.setData((byte) (~power_config & 127));
     }
 
+    private float computeEngineCompoundValue(float x, float y) {
+        return Math.signum(y)*Math.max(Math.abs(x), Math.abs(y));
+    }
+
+    /**
+     * 
+     * Sets joystick values, converts them to engine speeds
+     * @param x -1~1 
+     * @param y -1~1 
+     */
+    public void joystick2Engines(float x, float y) {
+        float leftValue, rightValue;
+        if (x * y >= 0) {
+            leftValue = computeEngineCompoundValue(x, y);
+            rightValue = y - x;
+        } else {
+            leftValue = x + y;
+            rightValue = computeEngineCompoundValue(x, y);
+        }
+        
+        //int leftIntValue = (int)(leftValue*ENGINE_RESOLUTION);
+        //int rightIntValue = (int)(rightValue*ENGINE_RESOLUTION);
+        
+        //if (engine_speeds[ENGINE_LEFT] != leftIntValue || engine_speeds[ENGINE_RIGHT] != rightIntValue) {
+            //System.out.println("X: "+x+"  Y: "+y);
+        //    System.out.println("L: "+leftValue+"  R: "+rightValue);
+       // }
+        
+        setEngineSpeed(ADRESS_ENGINES+ENGINE_LEFT, (int)(leftValue*ENGINE_RESOLUTION));
+        setEngineSpeed(ADRESS_ENGINES+ENGINE_RIGHT, (int)(rightValue*ENGINE_RESOLUTION));
+    }
+
+    /**
+     * Sets joystick values, converts them to servos position
+     * @param x
+     * @param y 
+     */
+    public void joystick2Servos(float x, float y) {
+        setServoPosition(SERVO_HORIZONTAL, (int) (x * SERVO_RESOLUTION));
+        setServoPosition(SERVO_VERTICAL, (int) (y * SERVO_RESOLUTION));
+    }
+
     /**
      *
      * sets speed of selected engine
@@ -113,15 +153,17 @@ public class Submarine {
      */
     public int setEngineSpeed(int id, int speed) {
 
+        
         // max min test
         if (speed <= ENGINE_RESOLUTION & speed >= -ENGINE_RESOLUTION) {
-            engine_speeds[id] = speed;
+            if (engine_speeds[id] != speed) {
+                engine_speeds[id] = speed;
+                
+                port.setAdress((byte) (ADRESS_ENGINES + id));
 
-            port.setAdress((byte) (ADRESS_ENGINES + id));
-
-            int polarity = speed < 0 ? 64 : 0;
-            port.setData((byte) (polarity | (Math.abs(speed) * 63 / ENGINE_RESOLUTION)));
-
+                int polarity = speed < 0 ? 64 : 0;
+                port.setData((byte) (polarity | (Math.abs(speed) * 63 / ENGINE_RESOLUTION)));
+            }
             return speed;
         } else {
             return speed > 0 ? ENGINE_RESOLUTION : -ENGINE_RESOLUTION;
@@ -172,7 +214,7 @@ public class Submarine {
 
             if (servo_position[id] != position) {
                 // if last position is different
-                
+
                 servo_position[id] = position;
 
                 port.setAdress((byte) (ADRESS_SERVOS + id));

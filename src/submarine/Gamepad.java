@@ -52,19 +52,15 @@ public class Gamepad {
         float xyValue[] = gpController.getXYStickValue();
         //xyPanel.setCompass(compassDir);
         
-        
+        submarine.joystick2Engines(xyValue[0], -xyValue[1]);
 
         // ========== Servo =============================
         float zrValue[] = gpController.getZRZStickValue();
         //zrzPanel.setCompass(compassDir);
         //System.out.println("0: " + zrValue[0] + " 1: " + zrValue[1]);
 
-        submarine.setServoPosition(Submarine.ID_SERVO_HORIZONTAL, 
-               (int)(-zrValue[0]*Submarine.SERVO_RESOLUTION));
+        submarine.joystick2Servos(-zrValue[0], -zrValue[1]);
         
-        submarine.setServoPosition(Submarine.ID_SERVO_VERTICAL, 
-               (int)(-zrValue[1]*Submarine.SERVO_RESOLUTION));
-
         // get button settings
         boolean[] buttons = gpController.getButtons();
         //buttonsPanel.setButtons(buttons);
