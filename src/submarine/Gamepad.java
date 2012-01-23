@@ -51,6 +51,8 @@ public class Gamepad {
         // get compass direction for the two analog sticks
         float xyValue[] = gpController.getXYStickValue();
         //xyPanel.setCompass(compassDir);
+        
+        
 
         // ========== Servo =============================
         float zrValue[] = gpController.getZRZStickValue();
@@ -58,7 +60,7 @@ public class Gamepad {
         //System.out.println("0: " + zrValue[0] + " 1: " + zrValue[1]);
 
         submarine.setServoPosition(Submarine.ID_SERVO_HORIZONTAL, 
-               (int)(zrValue[0]*Submarine.SERVO_RESOLUTION));
+               (int)(-zrValue[0]*Submarine.SERVO_RESOLUTION));
         
         submarine.setServoPosition(Submarine.ID_SERVO_VERTICAL, 
                (int)(-zrValue[1]*Submarine.SERVO_RESOLUTION));
