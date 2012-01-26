@@ -132,11 +132,11 @@ public class Submarine {
         //    System.out.println("L: "+leftValue+"  R: "+rightValue);
         // }
 
-        int l_old = engine_speeds[ADRESS_ENGINES + ENGINE_LEFT];
-        int r_old = engine_speeds[ADRESS_ENGINES + ENGINE_RIGHT];
+        int l_old = engine_speeds[ENGINE_LEFT];
+        int r_old = engine_speeds[ENGINE_RIGHT];
 
-        int l = setEngineSpeed(ADRESS_ENGINES + ENGINE_LEFT, (int) Math.floor(leftValue * ENGINE_RESOLUTION));
-        int r = setEngineSpeed(ADRESS_ENGINES + ENGINE_RIGHT, (int) Math.floor(rightValue * ENGINE_RESOLUTION));
+        int l = setEngineSpeed(ENGINE_LEFT, (int) Math.floor(leftValue * ENGINE_RESOLUTION));
+        int r = setEngineSpeed(ENGINE_RIGHT, (int) Math.floor(rightValue * ENGINE_RESOLUTION));
 
         if (l_old != l || r_old != r) {
             Util.log.write("Left: " + l + " Right: " + r);
