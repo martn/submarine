@@ -50,7 +50,7 @@ public class Submarine {
             gamepad = new Gamepad(this);
 
         } catch (GamepadNotFoundException e) {
-            
+
             Util.log.write(e.getMessage());
         }
 
@@ -105,7 +105,7 @@ public class Submarine {
     }
 
     private float computeEngineCompoundValue(float x, float y) {
-        return Math.signum(y)*Math.max(Math.abs(x), Math.abs(y));
+        return Math.signum(y) * Math.max(Math.abs(x), Math.abs(y));
     }
 
     /**
@@ -123,17 +123,24 @@ public class Submarine {
             leftValue = x + y;
             rightValue = computeEngineCompoundValue(x, y);
         }
-        
+
         //int leftIntValue = (int)(leftValue*ENGINE_RESOLUTION);
         //int rightIntValue = (int)(rightValue*ENGINE_RESOLUTION);
-        
+
         //if (engine_speeds[ENGINE_LEFT] != leftIntValue || engine_speeds[ENGINE_RIGHT] != rightIntValue) {
-            //System.out.println("X: "+x+"  Y: "+y);
+        //System.out.println("X: "+x+"  Y: "+y);
         //    System.out.println("L: "+leftValue+"  R: "+rightValue);
-       // }
-        
-        setEngineSpeed(ADRESS_ENGINES+ENGINE_LEFT, (int)(leftValue*ENGINE_RESOLUTION));
-        setEngineSpeed(ADRESS_ENGINES+ENGINE_RIGHT, (int)(rightValue*ENGINE_RESOLUTION));
+        // }
+
+        int l_old = engine_speeds[ADRESS_ENGINES + ENGINE_LEFT];
+        int r_old = engine_speeds[ADRESS_ENGINES + ENGINE_RIGHT];
+
+        int l = setEngineSpeed(ADRESS_ENGINES + ENGINE_LEFT, (int) Math.floor(leftValue * ENGINE_RESOLUTION));
+        int r = setEngineSpeed(ADRESS_ENGINES + ENGINE_RIGHT, (int) Math.floor(rightValue * ENGINE_RESOLUTION));
+
+        if (l_old != l || r_old != r) {
+            Util.log.write("Left: " + l + " Right: " + r);
+        }
     }
 
     /**
@@ -142,8 +149,15 @@ public class Submarine {
      * @param y 
      */
     public void joystick2Servos(float x, float y) {
-        setServoPosition(SERVO_HORIZONTAL, (int) (x * SERVO_RESOLUTION));
-        setServoPosition(SERVO_VERTICAL, (int) (y * SERVO_RESOLUTION));
+        int h_old = servo_position[SERVO_HORIZONTAL];
+        int v_old = servo_position[SERVO_VERTICAL];
+
+        int h = setServoPosition(SERVO_HORIZONTAL, (int) Math.floor(x * SERVO_RESOLUTION));
+        int v = setServoPosition(SERVO_VERTICAL, (int) Math.floor(y * SERVO_RESOLUTION));
+
+        if (h_old != h || v_old != v) {
+            Util.log.write("Horizontal: " + h + " Vertical: " + v);
+        }
     }
 
     /**
@@ -154,14 +168,14 @@ public class Submarine {
      */
     public int setEngineSpeed(int id, int speed) {
 
-        
+
         // max min test
         if (speed <= ENGINE_RESOLUTION & speed >= -ENGINE_RESOLUTION) {
             if (engine_speeds[id] != speed) {
                 engine_speeds[id] = speed;
-                
-                System.out.println(speed);
-                
+
+                //System.out.println(speed);
+
                 port.setAdress((byte) (ADRESS_ENGINES + id));
 
                 int polarity = speed < 0 ? 64 : 0;
@@ -219,7 +233,9 @@ public class Submarine {
                 // if last position is different
 
                 servo_position[id] = position;
-                
+
+                //System.out.println(position);
+
                 port.setAdress((byte) (ADRESS_SERVOS + id));
                 port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
             }
