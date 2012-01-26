@@ -294,7 +294,6 @@ public class SubmarineView extends FrameView {
         jPanel4.setPreferredSize(new java.awt.Dimension(140, 100));
 
         jButtonServoPlus.setText(resourceMap.getString("jButtonServoPlus.text")); // NOI18N
-        jButtonServoPlus.setEnabled(false);
         jButtonServoPlus.setName("jButtonServoPlus"); // NOI18N
         jButtonServoPlus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,7 +302,6 @@ public class SubmarineView extends FrameView {
         });
 
         jButtonServoMinus.setText(resourceMap.getString("jButtonServoMinus.text")); // NOI18N
-        jButtonServoMinus.setEnabled(false);
         jButtonServoMinus.setName("jButtonServoMinus"); // NOI18N
         jButtonServoMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,7 +344,6 @@ public class SubmarineView extends FrameView {
         jPanel5.setPreferredSize(new java.awt.Dimension(140, 100));
 
         jButtonServoPlus1.setText(resourceMap.getString("jButtonServoPlus1.text")); // NOI18N
-        jButtonServoPlus1.setEnabled(false);
         jButtonServoPlus1.setName("jButtonServoPlus1"); // NOI18N
         jButtonServoPlus1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -355,7 +352,6 @@ public class SubmarineView extends FrameView {
         });
 
         jButtonServoMinus1.setText(resourceMap.getString("jButtonServoMinus1.text")); // NOI18N
-        jButtonServoMinus1.setEnabled(false);
         jButtonServoMinus1.setName("jButtonServoMinus1"); // NOI18N
         jButtonServoMinus1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

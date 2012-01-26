@@ -83,7 +83,7 @@ public class GamePadController {
         return this.controller;
     }
 
-    private Controller findGamePad(Controller[] cs) /* Search the array of controllers until a suitable game pad
+    private Controller findGamePad(Controller[] cs) throws GamepadNotFoundException /* Search the array of controllers until a suitable game pad
     controller is found (eith of type GAMEPAD or STICK).
      */ {
         Controller.Type type;
@@ -97,9 +97,9 @@ public class GamePadController {
             i++;
         }
 
-        if (i == cs.length) {
+        if (i == cs.length) {            
             System.out.println("No game pad found");
-            System.exit(0);
+            throw new GamepadNotFoundException("Game pad not found");
         } else {
             System.out.println("Game pad index: " + i);
         }

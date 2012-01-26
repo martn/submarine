@@ -21,7 +21,7 @@ import net.java.games.input.Rumbler;
  */
 public class Submarine {
 
-    public static final int ENGINE_RESOLUTION = 12;
+    public static final int ENGINE_RESOLUTION = 24;
     public static final int SERVO_RESOLUTION = 25;
     public static final byte ADRESS_SERVOS = 6;
     public static final byte ADRESS_CAMERA = 8;
@@ -50,6 +50,7 @@ public class Submarine {
             gamepad = new Gamepad(this);
 
         } catch (GamepadNotFoundException e) {
+            
             Util.log.write(e.getMessage());
         }
 
@@ -159,6 +160,8 @@ public class Submarine {
             if (engine_speeds[id] != speed) {
                 engine_speeds[id] = speed;
                 
+                System.out.println(speed);
+                
                 port.setAdress((byte) (ADRESS_ENGINES + id));
 
                 int polarity = speed < 0 ? 64 : 0;
@@ -216,7 +219,7 @@ public class Submarine {
                 // if last position is different
 
                 servo_position[id] = position;
-
+                
                 port.setAdress((byte) (ADRESS_SERVOS + id));
                 port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
             }
