@@ -22,7 +22,7 @@ import net.java.games.input.Rumbler;
 public class Submarine {
 
     public static final int ENGINE_RESOLUTION = 24;
-    public static final int SERVO_RESOLUTION = 25;
+    public static final int SERVO_RESOLUTION = 21;
     public static final byte ADRESS_SERVOS = 6;
     public static final byte ADRESS_CAMERA = 8;
     public static final byte ADRESS_ENGINES = 1;
