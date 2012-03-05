@@ -73,12 +73,6 @@ class ComPort implements Runnable, SerialPortEventListener {
             }
 
             try {
-                serialPort.addEventListener(this);
-                serialPort.notifyOnDataAvailable(true);
-            } catch (TooManyListenersException e) {
-            }
-
-            try {
 
                 // set default port parameters
                 serialPort.setSerialPortParams(19200, SerialPort.DATABITS_8,
@@ -93,6 +87,11 @@ class ComPort implements Runnable, SerialPortEventListener {
             } catch (IOException e) {
             }
 
+            try {
+                serialPort.addEventListener(this);
+                serialPort.notifyOnDataAvailable(true);
+            } catch (TooManyListenersException e) {
+            }
             // start the read thread
             // readThread = new Thread(this);
             // readThread.start();
@@ -118,7 +117,7 @@ class ComPort implements Runnable, SerialPortEventListener {
     if (inputBufferCount == 0 | count < 0) {
     return 0;
     }
-
+    
     if (count > inputBufferCount) {
     int retval = inputBufferCount;
     System.arraycopy(inputBuffer, 0, inBuffer, 0, inputBufferCount);
@@ -131,8 +130,6 @@ class ComPort implements Runnable, SerialPortEventListener {
     return count;
     }
     }*/
-
-    
     /**
      * clears input buffer
      */
@@ -140,7 +137,6 @@ class ComPort implements Runnable, SerialPortEventListener {
         readBufferCount = 0;
     }
 
-    
     /**
      * copies elements from one array to another
      * @param targetArray
@@ -151,7 +147,7 @@ class ComPort implements Runnable, SerialPortEventListener {
     for (int i = 0; i < count; i++) {
     targetArray[i]=sourceArray[i];
     }
-
+    
     }*/
     /**
      * writes string to port
@@ -212,28 +208,33 @@ class ComPort implements Runnable, SerialPortEventListener {
 
 
                 try {
+                    int availableBytes = inputStream.available();
+                    
                     // read data
-                    while (inputStream.available() > 0) {
-                        readBufferCount = inputStream.read(readBuffer);
-                    }
+                    while (availableBytes > 0) {
+                        
+                        readBufferCount = inputStream.read(readBuffer, 0, availableBytes);
 
-                    // buffer overflow
-                    //         int overFlow = Math.max(readBufferCount + inputBufferCount - BUFFER_SIZE, 0);
 
-                    // update inputBuffer, shifts data to the left if buffer full
+                        Util.log.write("buffer: " + readBufferCount);
+
+                        // buffer overflow
+                        //         int overFlow = Math.max(readBufferCount + inputBufferCount - BUFFER_SIZE, 0);
+
+                        // update inputBuffer, shifts data to the left if buffer full
           /*          inputBuffer = (byte[]) ArrayUtils.addAll(ArrayUtils.subarray(inputBuffer, overFlow, inputBufferCount),
-                    ArrayUtils.subarray(readBuffer, 0, readBufferCount));
-                     */
-                    //      inputBufferCount += readBufferCount - overFlow;
+                        ArrayUtils.subarray(readBuffer, 0, readBufferCount));
+                         */
+                        //      inputBufferCount += readBufferCount - overFlow;
 
 
-                    // log
-                    //    String result = new String(ArrayUtils.subarray(inputBuffer, 0, readBufferCount + inputBufferCount));
+                        // log
+                        //    String result = new String(ArrayUtils.subarray(inputBuffer, 0, readBufferCount + inputBufferCount));
 
 
-                    readDataEvent();
-
-                    clearReadBuffer();
+                        readDataEvent();
+                        clearReadBuffer();
+                    }
                     //  Util.log.write("buffer: " + result);
                 } catch (IOException e) {
                 }

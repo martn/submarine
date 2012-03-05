@@ -5,6 +5,7 @@
 package submarine;
 
 import com.martinnovak.utils.Configuration;
+import com.martinnovak.utils.HexCodec;
 import com.martinnovak.utils.Util;
 //import org.apache.commons.lang3.ArrayUtils;
 
@@ -47,10 +48,11 @@ public class SubmarinePort extends ComPort {
     protected void readDataEvent() {
         super.readDataEvent();
 
+        int startIndex = startSequenceIndex();
+        Util.log.write("startIndex: "+startIndex);
+        
         if (memoryIndex > 0) {
             // in filling process
-
-            int startIndex = startSequenceIndex();
 
             if (startIndex >= 0) {
                 // found start sequence
@@ -68,7 +70,7 @@ public class SubmarinePort extends ComPort {
         } else {
             // not filling up memory
 
-            if (startSequenceIndex() >= 0) {
+            if (startIndex >= 0) {
                 // start sequence found, start filling
 
                 fillReadMemory(memoryIndex, 0);
@@ -77,7 +79,7 @@ public class SubmarinePort extends ComPort {
 
         }
 
-      //  Util.log.write("received.....");
+        //Util.log.write("received.....");
     }
 
 
@@ -97,10 +99,13 @@ public class SubmarinePort extends ComPort {
         // number of bytes to write to mem
         int count = Math.min(READ_MEM_COUNT - memIndex, buffCount);
 
-        for (int i = memIndex; i < memIndex + count; i++) {
+        System.arraycopy(readBuffer, bufferIndex, readMemory, memIndex, count);
+        
+        /*for (int i = memIndex; i < memIndex + count; i++) {
             readMemory[i] = readBuffer[i - memIndex + bufferIndex];
-        }
-
+        }*/
+        
+        Util.log.write(HexCodec.bytes2Hex(readMemory));
         updateMemIndex(count);
     }
 
