@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
  */
 public class Log {
 
-    boolean toConsole = false;
+    boolean toConsole = true;
    // boolean toFile = false;
     JTextArea textArea = null;
 
