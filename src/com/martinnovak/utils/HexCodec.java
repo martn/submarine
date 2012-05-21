@@ -35,7 +35,7 @@ public class HexCodec {
         }
         return raw;
     }
-    
+
     public static String byte2Hex(byte raw) throws UnsupportedEncodingException {
         byte[] hex = new byte[2];
         //int index = 0;
@@ -43,13 +43,12 @@ public class HexCodec {
         int v = raw & 0xFF;
         hex[0] = HEX_CHAR_TABLE[v >>> 4];
         hex[1] = HEX_CHAR_TABLE[v & 0xF];
-        
+
         return new String(hex, "ASCII");
     }
-    
 
     public static String bytes2Hex(byte[] raw) {
-        byte[] hex = new byte[2 * raw.length];
+        byte[] hex = new byte[3 * raw.length];
         int index = 0;
 
         for (byte b : raw) {
@@ -58,10 +57,10 @@ public class HexCodec {
             hex[index++] = HEX_CHAR_TABLE[v & 0xF];
             hex[index++] = ' ';
         }
-        
+
         try {
             return new String(hex, "ASCII");
-        } catch(UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             return "UNSUPPORTED ENCODING";
         }
     }
