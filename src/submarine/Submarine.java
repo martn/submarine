@@ -6,14 +6,8 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Timer;
-import net.java.games.input.Component;
 import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
-import net.java.games.input.Rumbler;
 
 /**
  *
@@ -34,14 +28,14 @@ public class Submarine {
     public static final int ENGINE_RIGHT = 1;
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
-    private javax.swing.JLabel[] servoLabels;
+    //private javax.swing.JLabel[] servoLabels;
     private byte power_config = 0;
     public SubmarinePort port;
     public Sensors sensors;
     public Controller controler;
     public Gamepad gamepad;
     private Configuration config;
-    private Timer cameraBtnReleaseTimer = new Timer();  // timer for button release
+    //private Timer cameraBtnReleaseTimer = new Timer();  // timer for button release
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
