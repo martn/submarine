@@ -37,6 +37,7 @@ public class Submarine {
     private javax.swing.JLabel[] servoLabels;
     private byte power_config = 0;
     public SubmarinePort port;
+    public Sensors sensors;
     public Controller controler;
     public Gamepad gamepad;
     private Configuration config;
@@ -44,8 +45,11 @@ public class Submarine {
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
+                
+        
         port = new SubmarinePort(config);
-
+        sensors = port.getSensors();
+        
         try {
             gamepad = new Gamepad(this);
 

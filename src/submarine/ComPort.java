@@ -7,7 +7,7 @@ package submarine;
 import gnu.io.*;
 import java.io.*;
 import java.util.*;
-import org.apache.commons.lang3.ArrayUtils;
+//import org.apache.commons.lang3.ArrayUtils;
 import com.martinnovak.utils.*;
 
 /**
@@ -89,7 +89,7 @@ class ComPort implements Runnable, SerialPortEventListener {
 
             try {
                 serialPort.addEventListener(this);
-                serialPort.notifyOnDataAvailable(true);
+                //serialPort.notifyOnDataAvailable(true);
             } catch (TooManyListenersException e) {
             }
             // start the read thread
@@ -205,18 +205,17 @@ class ComPort implements Runnable, SerialPortEventListener {
             case SerialPortEvent.DATA_AVAILABLE:
 
                 // we get here if data has been received
-
+                //Util.log.write("Reading: .............................");
 
                 try {
                     int availableBytes = inputStream.available();
-                    
+
                     // read data
-                    while (availableBytes > 0) {
-                        
+                    // while (availableBytes > 0) {
+                    if (availableBytes > 0) {
                         readBufferCount = inputStream.read(readBuffer, 0, availableBytes);
 
-
-                        Util.log.write("buffer: " + readBufferCount);
+                        //Util.log.write("buffer: " + availableBytes + " " + readBufferCount);
 
                         // buffer overflow
                         //         int overFlow = Math.max(readBufferCount + inputBufferCount - BUFFER_SIZE, 0);
@@ -235,6 +234,8 @@ class ComPort implements Runnable, SerialPortEventListener {
                         readDataEvent();
                         clearReadBuffer();
                     }
+                    // } while (availableBytes > 0);
+                    // }
                     //  Util.log.write("buffer: " + result);
                 } catch (IOException e) {
                 }
