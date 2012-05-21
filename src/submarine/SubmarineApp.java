@@ -5,10 +5,13 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
-import org.jdesktop.application.Application;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import org.jdesktop.application.SingleFrameApplication;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
+import org.jdesktop.application.Application;
+import org.jdesktop.application.ResourceMap;
 
 /**
  * The main class of the application.
@@ -38,9 +41,9 @@ public class SubmarineApp extends SingleFrameApplication {
             // stop engines and servo to 0 position
             submarine.setEngineSpeed(0, 0);
             submarine.setEngineSpeed(1, 0);
-          //  submarine.setEngineSpeed(2, 0);
-          //  submarine.setEngineSpeed(3, 0);
-          //  submarine.setEngineSpeed(4, 0);
+            //  submarine.setEngineSpeed(2, 0);
+            //  submarine.setEngineSpeed(3, 0);
+            //  submarine.setEngineSpeed(4, 0);
 
             submarine.setServoPosition(0, 0);
             submarine.setServoPosition(1, 0);
@@ -58,6 +61,18 @@ public class SubmarineApp extends SingleFrameApplication {
      */
     @Override
     protected void configureWindow(java.awt.Window root) {
+        try {
+            //InputStream imgStream = this.getClass().getResourceAsStream("submarine-icon.png");
+            //BufferedImage bi = ImageIO.read(imgStream);
+
+            ResourceMap resourceMap = getContext().getResourceMap();
+            String filename = resourceMap.getResourcesDir() + "submarine-icon.png";
+            ImageIcon icon = new ImageIcon(resourceMap.getClassLoader().getResource(filename));
+            this.getMainFrame().setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     /**
@@ -73,8 +88,7 @@ public class SubmarineApp extends SingleFrameApplication {
      */
     public static void main(String[] args) {
         launch(SubmarineApp.class, args);
-
-
+        
         Controller[] ca = ControllerEnvironment.getDefaultEnvironment().getControllers();
 
         for (int i = 0; i < ca.length; i++) {
