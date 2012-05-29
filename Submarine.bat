@@ -1,1 +1,1 @@
-java -Djava.library.path=lib -jar Submarine.jar
+java -Djava.library.path=lib/jinput;lib -jar dist/Submarine.jar
