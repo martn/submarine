@@ -6,7 +6,6 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
-import java.util.Timer;
 import net.java.games.input.Controller;
 
 /**
@@ -72,8 +71,6 @@ public class Submarine {
             // if in range
             port.setAdress(ADRESS_CAMERA);
             port.setData((byte) number);
-
-            // cameraBtnReleaseTimer.schedule(new CameraButtonReleaseTask(this), CAMERA_RELEASE_DELAY);
         }
     }
 
@@ -83,8 +80,6 @@ public class Submarine {
     public void releaseCameraButtons() {
         port.setAdress(ADRESS_CAMERA);
         port.setData((byte) 0);
-
-        Util.log.write("released...");
     }
 
     public void powerConfigToggle(int number) {
