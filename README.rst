@@ -10,4 +10,9 @@ Prerequisites
 Installation
 ------------
 
-Download the repository and run Submarine.bat
+Download the repository and edit config.properties. 
+
+Run the application
+-------------------
+
+Simply run Submarine.bat
