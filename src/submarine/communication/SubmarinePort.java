@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package submarine;
+package submarine.communication;
 
 import com.martinnovak.utils.Configuration;
-import com.martinnovak.utils.HexCodec;
-import com.martinnovak.utils.Util;
+import javax.swing.event.EventListenerList;
+import submarine.Sensors;
 //import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -22,23 +22,47 @@ public class SubmarinePort extends ComPort {
     boolean synced = false;
     // updated pure read memory / sensors
     protected byte[] readMemory = new byte[Sensors.READ_BYTES];
+    
     int memoryIndex = 0;
-    public Sensors sensors;
+    
+    // Create the listener list
+    protected EventListenerList listenerList = new EventListenerList();
+    
+    
     
     public SubmarinePort(Configuration config) throws PortNotFoundException {
         
         super(config.getProperty("portId"));
-        
-        sensors = new Sensors();
 
         //if(config.getProperty("portBaud")this.serialPort
         serialPort.notifyOnDataAvailable(true);
     }
     
-    public Sensors getSensors() {
-        return sensors;
+    
+    // This methods allows classes to register for MyEvents
+    public void addReadListener(ReadListener listener) {
+        listenerList.add(ReadListener.class, listener);
     }
-
+    
+    // This methods allows classes to unregister for MyEvents
+    public void removeMyEventListener(ReadListener listener) {
+        listenerList.remove(ReadListener.class, listener);
+    }
+    
+    
+    // This private class is used to fire MyEvents
+    void fireReadEvent(ReadEvent evt) {
+        Object[] listeners = listenerList.getListenerList();
+        // Each listener occupies two elements - the first is the listener class
+        // and the second is the listener instance
+        for (int i=0; i<listeners.length; i+=2) {
+            if (listeners[i]==ReadListener.class) {
+                ((ReadListener)listeners[i+1]).ReadOccurred(evt);
+            }
+        }
+    }
+    
+    
     /**
      * returns actual read memory
      * @return
@@ -100,7 +124,11 @@ public class SubmarinePort extends ComPort {
             // read buffer filled                        
             memoryIndex = 0;
             //Util.log.write(HexCodec.bytes2Hex(readMemory));
-            sensors.setData(readMemory);
+            
+            
+            // HERE ==============================
+            //sensors.setData(readMemory);
+            fireReadEvent(new ReadEvent(this));
         }
     }
 
@@ -123,33 +151,6 @@ public class SubmarinePort extends ComPort {
         return -1;
     }
 
-    /**
-     * synchronizes with the submarine
-     */
-    /*    private void sync() {
-    
-    // suspend
-    //serialPort.notifyOnDataAvailable(false);
-    
-    if (inputBufferCount > 0) {
-    int firstOccurenceIndex = ArrayUtils.indexOf(inputBuffer, START_SEQUENCE_BYTE);
-    
-    if (firstOccurenceIndex != ArrayUtils.INDEX_NOT_FOUND) {
-    if (inputBuffer[firstOccurenceIndex + 1] == START_SEQUENCE_BYTE) {
-    // clear
-    inputBuffer = ArrayUtils.subarray(inputBuffer, firstOccurenceIndex, inputBufferCount);
-    inputBufferCount -= firstOccurenceIndex;
-    }
-    } else {
-    // not found
-    clearBuffer();
-    }
-    } else {
-    // nothing to do... ?
-    }
-    serialPort.notifyOnDataAvailable(true);
-    }
-     */
     /**
      * sets address where to write data (including 1 at the beginning)
      * @param adress

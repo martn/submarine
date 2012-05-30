@@ -6,14 +6,19 @@ package submarine;
 
 import com.martinnovak.utils.HexCodec;
 import com.martinnovak.utils.Util;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Timer;
+import submarine.communication.ReadEvent;
+import submarine.communication.ReadListener;
+import submarine.communication.SubmarinePort;
+import submarine.conversion.SentenceDataConvertor;
 
 /**
  *
  * @author Administrator
  */
-public class Sensors {
+public class Sensors implements ReadListener {
 
     //private Timer timer;    // = new Timer();
     
@@ -24,7 +29,12 @@ public class Sensors {
     public static final int DATA_INDEX_AZIMUTH = 5;
     public static final int DATA_INDEX_BATTERY1 = 7;
     public static final int DATA_INDEX_BATTERY2 = 9;
-    protected byte[] data = new byte[READ_BYTES];
+    
+    // private Map<String, Double> _sentence = new HashMap<String, Double>();
+    private byte[] data;
+    private DecimalFormat decimalFormatDouble = new DecimalFormat("#0.00");
+    private SubmarinePort port;
+
     public static final String[] test = {"40 40 40 02 02 CC 00 03 00 01 00 03 01 6B 8C 9B B5 CF B2 00 FD 26 E5 ",
         "40 40 40 02 02 CC 00 03 00 00 00 00 00 6C 8C 99 B5 CF B9 01 0E 26 89 ",
         "40 40 40 02 02 CC 00 03 01 01 00 01 00 70 8C 9B B4 CF B2 00 F4 27 2E ",
@@ -54,8 +64,18 @@ public class Sensors {
         "40 40 40 04 02 2B 00 01 00 03 00 03 00 70 8F 9C B4 1E E9 C9 88 03 5A "};
 
     
-    public Sensors() {
-        //timerTask = new SensorsTimerTask(this);        
+    public Sensors(SubmarinePort port) {
+        this.port = port;
+        
+        port.addReadListener(this);
+        
+        decimalFormatDouble.setRoundingMode(RoundingMode.UP);
+    }
+    
+    
+    @Override
+    public void ReadOccurred(ReadEvent evt) {
+        setData(port.getReadMemory());
     }
 
     /**
@@ -64,8 +84,61 @@ public class Sensors {
      */
     public void setData(byte[] d) {        
         data = Arrays.copyOfRange(d, 0, READ_BYTES);
+        Util.log.write(HexCodec.bytes2Hex(data));
+    }
         
-        //Util.log.write(HexCodec.bytes2Hex(data));
+    
+    // temperature
+    public double getTemperature() {
+        // TO DO
+        // return Double.parseDouble(_decimalFormatDouble.format(SentenceDataConvertor.getTemperature(_sentence[0], _sentence[1])));
+        return SentenceDataConvertor.getTemperature(data[3], data[4]);
+    }
+
+    // azimuth
+    public int getAzimuth() {
+        return SentenceDataConvertor.getAzimuth(data[5]);
+    }
+    
+    public double getLogicVoltage() {
+        return SentenceDataConvertor.getLogicVoltage(data[7], data[7]);
+    }
+
+    public double getServoVoltage() {
+        return SentenceDataConvertor.getServoVoltage(data[9], data[10]);
+    }
+
+    public double getDepth() {
+        return SentenceDataConvertor.getDepth(data[11], data[12]);
+    }
+
+    // TODO
+    public int getAccelX() {
+        return SentenceDataConvertor.getAccelX(data[15], data[14]);
+    }
+
+    public int getAccelY() {
+        return SentenceDataConvertor.getAccelY(data[17], data[16]);
+    }
+
+    public int getAccelZ() {
+        return SentenceDataConvertor.getAccelZ(data[19], data[18]);
+    }
+
+    public double getI2C1() {
+        return SentenceDataConvertor.getI2C1(data[8], data[9]);
+    }
+
+    public double getI2C2() {
+        return SentenceDataConvertor.getI2C2(data[8], data[9]);
+    }
+
+    public double getI2C3() {
+        return SentenceDataConvertor.getI2C3(data[8], data[9]);
+    }
+
+    public double getI2C4() {
+        return SentenceDataConvertor.getI2C4(data[8], data[9]);
     }
     
     /*

@@ -2,16 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package submarine;
+package submarine.communication;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.awt.event.*;
-import javax.swing.*;
+import javax.swing.Timer;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.Rumbler;
+import submarine.Submarine;
 
 /**
  *
@@ -35,7 +37,7 @@ public class Gamepad {
         startPolling();
     }
 
-    public Controller getController() {
+    public final Controller getController() {
         return gpController.getController();
     }
 

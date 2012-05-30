@@ -7,6 +7,10 @@ package submarine;
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
 import net.java.games.input.Controller;
+import submarine.communication.Gamepad;
+import submarine.communication.GamepadNotFoundException;
+import submarine.communication.PortNotFoundException;
+import submarine.communication.SubmarinePort;
 
 /**
  *
@@ -38,10 +42,9 @@ public class Submarine {
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
-                
-        
+                        
         port = new SubmarinePort(config);
-        sensors = port.getSensors();
+        sensors = new Sensors(port);
         
         try {
             gamepad = new Gamepad(this);
@@ -60,6 +63,16 @@ public class Submarine {
             servo_position[i] = 0;
         }
     }
+
+    public SubmarinePort getPort() {
+        return port;
+    }
+
+    public Sensors getSensors() {
+        return sensors;
+    }
+    
+    
 
     /**
      *

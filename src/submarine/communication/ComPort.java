@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package submarine;
+package submarine.communication;
 
 import com.martinnovak.utils.Util;
 import gnu.io.*;
@@ -52,7 +52,6 @@ class ComPort implements Runnable, SerialPortEventListener {
                     break;
                 }
             }
-
         }
         if (!portFound) {
             Util.log.write("port " + defaultPort + " not found.");
@@ -190,6 +189,7 @@ class ComPort implements Runnable, SerialPortEventListener {
      * asynchronous serial read event 
      * @param event
      */
+    @Override
     synchronized public void serialEvent(SerialPortEvent event) {
 
         // Util.log.write("Event: "+event.getEventType());

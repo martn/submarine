@@ -7,12 +7,18 @@ package submarine;
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import submarine.communication.PortNotFoundException;
+import submarine.communication.ReadEvent;
+import submarine.communication.ReadListener;
 
 /**
  *
  * @author Administrator
  */
-public class SubmarineApp extends javax.swing.JFrame {
+public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
 
     static Configuration config;
     static Submarine submarine;
@@ -28,6 +34,17 @@ public class SubmarineApp extends javax.swing.JFrame {
 
         Util.log.logToTextArea(logTextArea);
         Util.log.logToConsole(true);
+        
+        // ============ INIT VISUALS =========================        
+        
+        try {
+            URL iconUrl = this.getClass().getResource("resources/submarine-icon.png");            
+            ImageIcon icon = new ImageIcon(iconUrl);
+            this.setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
 
         // ============ INIT FONTS ===========================
 
@@ -55,15 +72,17 @@ public class SubmarineApp extends javax.swing.JFrame {
 
         try {
             submarine = new Submarine(config);
+            
+            submarine.getPort().addReadListener(this);
 
             // Initial settings
 
             // stop engines and servo to 0 position
             submarine.setEngineSpeed(0, 0);
             submarine.setEngineSpeed(1, 0);
-            //  submarine.setEngineSpeed(2, 0);
-            //  submarine.setEngineSpeed(3, 0);
-            //  submarine.setEngineSpeed(4, 0);
+            submarine.setEngineSpeed(2, 0);
+            submarine.setEngineSpeed(3, 0);
+            submarine.setEngineSpeed(4, 0);
 
             submarine.setServoPosition(0, 0);
             submarine.setServoPosition(1, 0);
@@ -81,6 +100,33 @@ public class SubmarineApp extends javax.swing.JFrame {
         }
          */
     }
+    
+    
+    @Override
+    public void ReadOccurred(ReadEvent evt) {
+        
+        jTextFieldTemperature.setText(Double.toString(getSensors().getTemperature()));
+        
+        /*jSliderTemperature.setValue((int)temp);*/
+        
+        
+        jTextFieldAzimuth.setText(Integer.toString(getSensors().getAzimuth()));
+        jTextFieldBat1.setText(Double.toString(getSensors().getLogicVoltage()));
+        jTextFieldBat2.setText(Double.toString(getSensors().getServoVoltage()));
+        
+        /*jTextFieldDepth.setText(Double.toString(dataSentence.getDepth()));
+        jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
+        jTextFieldAccelY.setText(Integer.toString(dataSentence.getAccelY()));
+        jTextFieldAccelZ.setText(Integer.toString(dataSentence.getAccelZ()));
+        jTextFieldI2C1.setText(Double.toString(dataSentence.getI2C1()));
+        jTextFieldI2C2.setText(Double.toString(dataSentence.getI2C2()));
+        jTextFieldI2C3.setText(Double.toString(dataSentence.getI2C3()));
+        jTextFieldI2C4.setText(Double.toString(dataSentence.getI2C4()));      */  
+    }
+    
+    private Sensors getSensors() {
+        return submarine.getSensors();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +141,18 @@ public class SubmarineApp extends javax.swing.JFrame {
         Status = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         SensorsPanel = new javax.swing.JPanel();
+        jLabelTemperature = new javax.swing.JLabel();
+        jTextFieldTemperature = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabelAzimuth = new javax.swing.JLabel();
+        jTextFieldAzimuth = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabelUBattery1 = new javax.swing.JLabel();
+        jTextFieldBat1 = new javax.swing.JTextField();
+        jTextFieldBat2 = new javax.swing.JTextField();
         MainTabPanel = new javax.swing.JTabbedPane();
         Control = new javax.swing.JPanel();
         CameraPanel = new javax.swing.JPanel();
@@ -125,8 +183,9 @@ public class SubmarineApp extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
         MenuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuItemClose = new javax.swing.JMenuItem();
+        jMenuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Submarine");
@@ -150,7 +209,7 @@ public class SubmarineApp extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,15 +223,113 @@ public class SubmarineApp extends javax.swing.JFrame {
         SensorsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Sensors"));
         SensorsPanel.setPreferredSize(new java.awt.Dimension(445, 200));
 
+        jLabelTemperature.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelTemperature.setText("TEMP:");
+
+        jTextFieldTemperature.setEditable(false);
+        jTextFieldTemperature.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldTemperature.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldTemperature.setText("0");
+        jTextFieldTemperature.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 153)));
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel3.setText("°C");
+
+        jLabelAzimuth.setForeground(new java.awt.Color(0, 102, 0));
+        jLabelAzimuth.setText("AZIMUTH:");
+
+        jTextFieldAzimuth.setEditable(false);
+        jTextFieldAzimuth.setForeground(new java.awt.Color(0, 102, 0));
+        jTextFieldAzimuth.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldAzimuth.setText("0");
+        jTextFieldAzimuth.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 0)));
+        jTextFieldAzimuth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldAzimuthActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel4.setText("°");
+
+        jLabel13.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel13.setText("V");
+
+        jLabel12.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel12.setText("V");
+
+        jLabel6.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel6.setText("U BAT2:");
+
+        jLabelUBattery1.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery1.setText("U BAT1:");
+
+        jTextFieldBat1.setEditable(false);
+        jTextFieldBat1.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldBat1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldBat1.setText("0");
+        jTextFieldBat1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldBat1.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jTextFieldBat2.setEditable(false);
+        jTextFieldBat2.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldBat2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldBat2.setText("0");
+        jTextFieldBat2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldBat2.setCaretColor(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout SensorsPanelLayout = new javax.swing.GroupLayout(SensorsPanel);
         SensorsPanel.setLayout(SensorsPanelLayout);
         SensorsPanelLayout.setHorizontalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
+            .addGroup(SensorsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelUBattery1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabelTemperature, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addGroup(SensorsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabelAzimuth)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
         SensorsPanelLayout.setVerticalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 149, Short.MAX_VALUE)
+            .addGroup(SensorsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTemperature)
+                    .addComponent(jLabel3)
+                    .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabelAzimuth)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabelUBattery1)
+                    .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41))
         );
 
         jPanel2.add(SensorsPanel);
@@ -369,7 +526,7 @@ public class SubmarineApp extends javax.swing.JFrame {
                         .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cameraButton2_Down)
                             .addComponent(cameraButton8_Ok))))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         CameraPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
@@ -489,7 +646,7 @@ public class SubmarineApp extends javax.swing.JFrame {
                                 .addComponent(PowerButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(PowerButton6)))
-                        .addContainerGap(91, Short.MAX_VALUE))))
+                        .addContainerGap(92, Short.MAX_VALUE))))
         );
         PowerPanelLayout.setVerticalGroup(
             PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,7 +665,7 @@ public class SubmarineApp extends javax.swing.JFrame {
                     .addComponent(PowerButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PowerButton7)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         Control.add(PowerPanel);
@@ -531,11 +688,20 @@ public class SubmarineApp extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("File");
-        MenuBar.add(jMenu1);
+        jMenuFile.setText("File");
 
-        jMenu2.setText("Edit");
-        MenuBar.add(jMenu2);
+        jMenuItemClose.setText("Close");
+        jMenuItemClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCloseActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItemClose);
+
+        MenuBar.add(jMenuFile);
+
+        jMenuEdit.setText("Edit");
+        MenuBar.add(jMenuEdit);
 
         setJMenuBar(MenuBar);
 
@@ -727,6 +893,15 @@ public class SubmarineApp extends javax.swing.JFrame {
         submarine.releaseCameraButtons();
     }//GEN-LAST:event_cameraButton4_CancelMouseReleased
 
+    private void jTextFieldAzimuthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAzimuthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAzimuthActionPerformed
+
+    private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
+        // TODO add your handling code here:
+        processWindowEvent( new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
+    }//GEN-LAST:event_jMenuItemCloseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -798,12 +973,25 @@ public class SubmarineApp extends javax.swing.JFrame {
     private javax.swing.JButton cameraButton6_Up;
     private javax.swing.JButton cameraButton7_Play;
     private javax.swing.JButton cameraButton8_Ok;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelAzimuth;
+    private javax.swing.JLabel jLabelTemperature;
+    private javax.swing.JLabel jLabelUBattery1;
+    private javax.swing.JMenu jMenuEdit;
+    private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldAzimuth;
+    private javax.swing.JTextField jTextFieldBat1;
+    private javax.swing.JTextField jTextFieldBat2;
+    private javax.swing.JTextField jTextFieldTemperature;
     private javax.swing.JTextArea logTextArea;
     // End of variables declaration//GEN-END:variables
 }
