@@ -23,7 +23,7 @@ public class Sensors implements ReadListener {
     //private Timer timer;    // = new Timer();
     
     //private SensorsTimerTask timerTask;
-    public static final int READ_BYTES = 23;
+    public static final int READ_BYTES = 39;
     public static final int DATA_START_CODE = 64;
     public static final int DATA_INDEX_TEMPERATURE = 3;
     public static final int DATA_INDEX_AZIMUTH = 5;
@@ -101,7 +101,7 @@ public class Sensors implements ReadListener {
     }
     
     public double getLogicVoltage() {
-        return SentenceDataConvertor.getLogicVoltage(data[7], data[7]);
+        return SentenceDataConvertor.getLogicVoltage(data[7], data[8]);
     }
 
     public double getServoVoltage() {
@@ -114,11 +114,11 @@ public class Sensors implements ReadListener {
 
     // TODO
     public int getAccelX() {
-        return SentenceDataConvertor.getAccelX(data[15], data[14]);
+        return SentenceDataConvertor.getAccelX(data[21], data[22]);
     }
 
     public int getAccelY() {
-        return SentenceDataConvertor.getAccelY(data[17], data[16]);
+        return SentenceDataConvertor.getAccelY(data[23], data[24]);
     }
 
     public int getAccelZ() {
@@ -140,6 +140,38 @@ public class Sensors implements ReadListener {
     public double getI2C4() {
         return SentenceDataConvertor.getI2C4(data[8], data[9]);
     }
+    
+    public double getPWR_UINcam() {
+        return SentenceDataConvertor.getPWR(data[23], data[24]);
+    }
+    
+    public double getPWR_Ilog() {
+        return SentenceDataConvertor.getPWR(data[25], data[26]);
+    }
+    
+    public double getPWR_Ulog() {
+        return SentenceDataConvertor.getPWR(data[27], data[28]);
+    }
+    public double getPWR_Icam() {
+        return SentenceDataConvertor.getPWR(data[29], data[30]);
+    }
+    
+    public double getPWR_Ieng() {
+        return SentenceDataConvertor.getPWR(data[31], data[32]);
+    }
+    
+    public double getPWR_Ueng() {
+        return SentenceDataConvertor.getPWR(data[33], data[34]);
+    }
+    
+    public double getPWR_UOUTcam() {
+        return SentenceDataConvertor.getPWR(data[35], data[36]);
+    }
+    
+    public double getPWR_UOUT4() {
+        return SentenceDataConvertor.getPWR(data[37], data[38]);
+    }
+    
     
     /*
     private boolean testData() {

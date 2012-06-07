@@ -114,8 +114,18 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         jTextFieldBat1.setText(Double.toString(getSensors().getLogicVoltage()));
         jTextFieldBat2.setText(Double.toString(getSensors().getServoVoltage()));
         
-        /*jTextFieldDepth.setText(Double.toString(dataSentence.getDepth()));
-        jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
+        jTextFieldDepth.setText(Double.toString(getSensors().getDepth()));
+        
+        jTextFieldPWR_Icam.setText(Double.toString(getSensors().getPWR_Icam()));
+        jTextFieldPWR_Ieng.setText(Double.toString(getSensors().getPWR_Ieng()));
+        jTextFieldPWR_Ilog.setText(Double.toString(getSensors().getPWR_Ilog()));
+        jTextFieldPWR_UINcam.setText(Double.toString(getSensors().getPWR_UINcam()));
+        jTextFieldPWR_UOUT4.setText(Double.toString(getSensors().getPWR_UOUT4()));
+        jTextFieldPWR_UOUTcam.setText(Double.toString(getSensors().getPWR_UOUTcam()));
+        jTextFieldPWR_Ueng.setText(Double.toString(getSensors().getPWR_Ueng()));
+        jTextFieldPWR_Ulog.setText(Double.toString(getSensors().getPWR_Ulog()));
+        
+        /*jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
         jTextFieldAccelY.setText(Integer.toString(dataSentence.getAccelY()));
         jTextFieldAccelZ.setText(Integer.toString(dataSentence.getAccelZ()));
         jTextFieldI2C1.setText(Double.toString(dataSentence.getI2C1()));
@@ -141,6 +151,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         Status = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         SensorsPanel = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         jLabelTemperature = new javax.swing.JLabel();
         jTextFieldTemperature = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -153,6 +164,33 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         jLabelUBattery1 = new javax.swing.JLabel();
         jTextFieldBat1 = new javax.swing.JTextField();
         jTextFieldBat2 = new javax.swing.JTextField();
+        jLabelAzimuth1 = new javax.swing.JLabel();
+        jTextFieldDepth = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jTextFieldPWR_UINcam = new javax.swing.JTextField();
+        jLabelUBattery2 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabelUBattery3 = new javax.swing.JLabel();
+        jTextFieldPWR_Ilog = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabelUBattery4 = new javax.swing.JLabel();
+        jTextFieldPWR_Ulog = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabelUBattery5 = new javax.swing.JLabel();
+        jTextFieldPWR_Icam = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabelUBattery6 = new javax.swing.JLabel();
+        jTextFieldPWR_Ieng = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jLabelUBattery7 = new javax.swing.JLabel();
+        jTextFieldPWR_Ueng = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jLabelUBattery8 = new javax.swing.JLabel();
+        jTextFieldPWR_UOUTcam = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jLabelUBattery9 = new javax.swing.JLabel();
+        jTextFieldPWR_UOUT4 = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
         MainTabPanel = new javax.swing.JTabbedPane();
         Control = new javax.swing.JPanel();
         CameraPanel = new javax.swing.JPanel();
@@ -189,7 +227,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Submarine");
-        setPreferredSize(new java.awt.Dimension(400, 750));
+        setPreferredSize(new java.awt.Dimension(500, 850));
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -209,7 +247,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +259,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         SensorsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Sensors"));
-        SensorsPanel.setPreferredSize(new java.awt.Dimension(445, 200));
+        SensorsPanel.setPreferredSize(new java.awt.Dimension(445, 300));
 
         jLabelTemperature.setForeground(new java.awt.Color(0, 0, 153));
         jLabelTemperature.setText("TEMP:");
@@ -278,58 +316,328 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         jTextFieldBat2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
         jTextFieldBat2.setCaretColor(new java.awt.Color(255, 51, 51));
 
+        jLabelAzimuth1.setForeground(new java.awt.Color(0, 102, 0));
+        jLabelAzimuth1.setText("DEPTH:");
+
+        jTextFieldDepth.setEditable(false);
+        jTextFieldDepth.setForeground(new java.awt.Color(0, 102, 0));
+        jTextFieldDepth.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldDepth.setText("0");
+        jTextFieldDepth.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 0)));
+        jTextFieldDepth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDepthActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(146, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabelAzimuth)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabelAzimuth1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldDepth, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addContainerGap())
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabelUBattery1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabelTemperature, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel13))
+                    .addContainerGap(149, Short.MAX_VALUE)))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabelAzimuth))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDepth, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelAzimuth1))
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelTemperature)
+                        .addComponent(jLabel3))
+                    .addGap(32, 32, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabelUBattery1)
+                        .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap()))
+        );
+
+        jTextFieldPWR_UINcam.setEditable(false);
+        jTextFieldPWR_UINcam.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_UINcam.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_UINcam.setText("0");
+        jTextFieldPWR_UINcam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_UINcam.setCaretColor(new java.awt.Color(255, 51, 51));
+        jTextFieldPWR_UINcam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPWR_UINcamActionPerformed(evt);
+            }
+        });
+
+        jLabelUBattery2.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery2.setText("U PWB IN cam.");
+
+        jLabel14.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel14.setText("V");
+
+        jLabelUBattery3.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery3.setText("I PWB log.");
+
+        jTextFieldPWR_Ilog.setEditable(false);
+        jTextFieldPWR_Ilog.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_Ilog.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_Ilog.setText("0");
+        jTextFieldPWR_Ilog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_Ilog.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel15.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel15.setText("V");
+
+        jLabelUBattery4.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery4.setText("U PWB log.");
+
+        jTextFieldPWR_Ulog.setEditable(false);
+        jTextFieldPWR_Ulog.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_Ulog.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_Ulog.setText("0");
+        jTextFieldPWR_Ulog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_Ulog.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel16.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel16.setText("V");
+
+        jLabelUBattery5.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery5.setText("I PWB cam.");
+
+        jTextFieldPWR_Icam.setEditable(false);
+        jTextFieldPWR_Icam.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_Icam.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_Icam.setText("0");
+        jTextFieldPWR_Icam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_Icam.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel17.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel17.setText("V");
+
+        jLabelUBattery6.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery6.setText("I PWB eng.");
+
+        jTextFieldPWR_Ieng.setEditable(false);
+        jTextFieldPWR_Ieng.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_Ieng.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_Ieng.setText("0");
+        jTextFieldPWR_Ieng.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_Ieng.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel18.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel18.setText("V");
+
+        jLabelUBattery7.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery7.setText("U PWB eng.");
+
+        jTextFieldPWR_Ueng.setEditable(false);
+        jTextFieldPWR_Ueng.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_Ueng.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_Ueng.setText("0");
+        jTextFieldPWR_Ueng.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_Ueng.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel19.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel19.setText("V");
+
+        jLabelUBattery8.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery8.setText("U PWB OUT cam.");
+
+        jTextFieldPWR_UOUTcam.setEditable(false);
+        jTextFieldPWR_UOUTcam.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_UOUTcam.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_UOUTcam.setText("0");
+        jTextFieldPWR_UOUTcam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_UOUTcam.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel20.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel20.setText("V");
+
+        jLabelUBattery9.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelUBattery9.setText("U PWB OUT 4");
+
+        jTextFieldPWR_UOUT4.setEditable(false);
+        jTextFieldPWR_UOUT4.setForeground(new java.awt.Color(204, 0, 51));
+        jTextFieldPWR_UOUT4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldPWR_UOUT4.setText("0");
+        jTextFieldPWR_UOUT4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
+        jTextFieldPWR_UOUT4.setCaretColor(new java.awt.Color(255, 51, 51));
+
+        jLabel21.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel21.setText("V");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabelUBattery8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPWR_UOUTcam, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabelUBattery9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPWR_UOUT4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel21)))
+                .addContainerGap())
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                            .addComponent(jTextFieldPWR_Ilog, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel15))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPWR_UINcam, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel14))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPWR_Ulog, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel16))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPWR_Ieng, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel18))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPWR_Icam, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel17))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabelUBattery7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPWR_Ueng, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel19)))
+                    .addContainerGap()))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(167, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabelUBattery8)
+                    .addComponent(jTextFieldPWR_UOUTcam, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabelUBattery9)
+                    .addComponent(jTextFieldPWR_UOUT4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabelUBattery2)
+                        .addComponent(jTextFieldPWR_UINcam, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(jLabelUBattery3)
+                        .addComponent(jTextFieldPWR_Ilog, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16)
+                        .addComponent(jLabelUBattery4)
+                        .addComponent(jTextFieldPWR_Ulog, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel17)
+                        .addComponent(jLabelUBattery5)
+                        .addComponent(jTextFieldPWR_Icam, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel18)
+                        .addComponent(jLabelUBattery6)
+                        .addComponent(jTextFieldPWR_Ieng, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel19)
+                        .addComponent(jLabelUBattery7)
+                        .addComponent(jTextFieldPWR_Ueng, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
         javax.swing.GroupLayout SensorsPanelLayout = new javax.swing.GroupLayout(SensorsPanel);
         SensorsPanel.setLayout(SensorsPanelLayout);
         SensorsPanelLayout.setHorizontalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SensorsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelUBattery1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabelTemperature, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addGroup(SensorsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabelAzimuth)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SensorsPanelLayout.setVerticalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SensorsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldTemperature, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTemperature)
-                    .addComponent(jLabel3)
-                    .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldAzimuth, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabelAzimuth)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabelUBattery1)
-                    .addComponent(jTextFieldBat1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextFieldBat2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41))
+                .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 47, Short.MAX_VALUE))
         );
 
         jPanel2.add(SensorsPanel);
@@ -526,7 +834,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
                         .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cameraButton2_Down)
                             .addComponent(cameraButton8_Ok))))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         CameraPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
@@ -646,7 +954,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
                                 .addComponent(PowerButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(PowerButton6)))
-                        .addContainerGap(92, Short.MAX_VALUE))))
+                        .addContainerGap(77, Short.MAX_VALUE))))
         );
         PowerPanelLayout.setVerticalGroup(
             PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,7 +973,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
                     .addComponent(PowerButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PowerButton7)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         Control.add(PowerPanel);
@@ -902,6 +1210,14 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         processWindowEvent( new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
+    private void jTextFieldPWR_UINcamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPWR_UINcamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPWR_UINcamActionPerformed
+
+    private void jTextFieldDepthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDepthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDepthActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -970,22 +1286,50 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
     private javax.swing.JButton cameraButton8_Ok;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelAzimuth;
+    private javax.swing.JLabel jLabelAzimuth1;
     private javax.swing.JLabel jLabelTemperature;
     private javax.swing.JLabel jLabelUBattery1;
+    private javax.swing.JLabel jLabelUBattery2;
+    private javax.swing.JLabel jLabelUBattery3;
+    private javax.swing.JLabel jLabelUBattery4;
+    private javax.swing.JLabel jLabelUBattery5;
+    private javax.swing.JLabel jLabelUBattery6;
+    private javax.swing.JLabel jLabelUBattery7;
+    private javax.swing.JLabel jLabelUBattery8;
+    private javax.swing.JLabel jLabelUBattery9;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldAzimuth;
     private javax.swing.JTextField jTextFieldBat1;
     private javax.swing.JTextField jTextFieldBat2;
+    private javax.swing.JTextField jTextFieldDepth;
+    private javax.swing.JTextField jTextFieldPWR_Icam;
+    private javax.swing.JTextField jTextFieldPWR_Ieng;
+    private javax.swing.JTextField jTextFieldPWR_Ilog;
+    private javax.swing.JTextField jTextFieldPWR_UINcam;
+    private javax.swing.JTextField jTextFieldPWR_UOUT4;
+    private javax.swing.JTextField jTextFieldPWR_UOUTcam;
+    private javax.swing.JTextField jTextFieldPWR_Ueng;
+    private javax.swing.JTextField jTextFieldPWR_Ulog;
     private javax.swing.JTextField jTextFieldTemperature;
     private javax.swing.JTextArea logTextArea;
     // End of variables declaration//GEN-END:variables

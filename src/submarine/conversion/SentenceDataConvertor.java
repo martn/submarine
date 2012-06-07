@@ -148,4 +148,8 @@ public class SentenceDataConvertor {
     public static double getI2C4(byte highByte, byte lowByte) {
         return -1;
     }
+    
+    public static double getPWR(byte highByte, byte lowByte) {
+        return (double)((highByte & 0xFF) << 8) + (double)lowByte;
+    }
 }
