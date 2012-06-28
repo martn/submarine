@@ -4,8 +4,7 @@
  */
 package submarine.conversion;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import com.martinnovak.utils.Util;
 
 /**
  *
@@ -19,41 +18,8 @@ public class SentenceDataConvertor {
     // azimuth constants
     static final double AZIMUTH_COEFFICIENT = 1.41;
 
-    public static double getTemperature(byte highByte, byte lowByte) {
-        double doubleValue;
-        String signBinaryString;
-        String temperatureBinaryString;
-        DecimalFormat df = new DecimalFormat("00000000");
-        boolean positiveValue;
-
-        /*
-         * convert low and high bytes to sign and value strings
-         */
-        try {
-            signBinaryString = df.format(Integer.parseInt(Integer.toBinaryString(lowByte))).substring(0, 5);
-            temperatureBinaryString = df.format(Integer.parseInt(Integer.toBinaryString(lowByte))).substring(5, 8)
-                    + df.format(Integer.parseInt(Integer.toBinaryString(highByte)));
-            positiveValue = Integer.parseInt(signBinaryString) == 0;
-
-            /*
-             * calculate temperature value
-             */
-            if (positiveValue) {
-                doubleValue = Integer.parseInt(temperatureBinaryString, 2) * TEMPERATURE_INCREMENTAL_STEP;
-            } else {
-                doubleValue = Integer.parseInt("11111111111", 2) * TEMPERATURE_INCREMENTAL_STEP
-                        - Integer.parseInt(temperatureBinaryString, 2) * TEMPERATURE_INCREMENTAL_STEP
-                        + TEMPERATURE_INCREMENTAL_STEP;
-                doubleValue = doubleValue * -1;
-            }
-        } catch (Exception ex) {
-            System.out.println("getTemperature exception: " + ex.getMessage());
-            doubleValue = 0;
-        }
-
-//        System.out.println("getTemperature decimalValue: " + String.valueOf(doubleValue)) ;
-
-        return FormatConvertor.round(doubleValue, 2, BigDecimal.ROUND_HALF_UP);
+    public static double getTemperature(byte lowByte, byte highByte) {
+        return (double)(((lowByte >>> 4) & 0x0F) + ((highByte & 0x07) << 4)) + Util.round((double)(lowByte & 0x0F)/16, 2);
     }
 
     // lowbyte is always zero at the moment
@@ -62,12 +28,12 @@ public class SentenceDataConvertor {
         return (int) (Integer.parseInt(highByteString, 2) * AZIMUTH_COEFFICIENT);
     }
 
-    public static double getLogicVoltage(byte highByte, byte lowByte) {
-        return ((double) lowByte) / 10;
+    public static double getLogicVoltage(byte lowByte, byte highByte) {
+        return Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt(highByte);
     }
 
-    public static double getServoVoltage(byte highByte, byte lowByte) {
-        return ((double) lowByte) / 10;
+    public static double getServoVoltage(byte lowByte, byte highByte) {
+        return Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt(highByte);
     }
 
     public static double getDepth(byte highByte, byte lowByte) {
@@ -149,7 +115,11 @@ public class SentenceDataConvertor {
         return -1;
     }
     
-    public static double getPWR(byte highByte, byte lowByte) {
-        return (double)((highByte & 0xFF) << 8) + (double)lowByte;
+    public static double getI(byte data) {
+        return (double)Util.byte2UnsignedInt(data);
+    }
+    
+    public static double getU(byte data) {
+        return ((double)Util.byte2UnsignedInt(data))/10;
     }
 }

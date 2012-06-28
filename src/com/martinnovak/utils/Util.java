@@ -26,4 +26,19 @@ public class Util {
         }
         return output.toString();
     }
+    
+    /**
+     * Rounds number to decimal places given by digits
+     * @param number
+     * @param digits
+     * @return 
+     */
+    public static double round(double number, int digits) {
+        double offset = Math.pow(10, digits);
+        return Math.round(number*offset)/offset;
+    }
+    
+    public static int byte2UnsignedInt(byte data) {
+        return (int) data & 0xFF;
+    }    
 }

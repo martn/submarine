@@ -16,7 +16,7 @@ import submarine.Sensors;
 public class SubmarinePort extends ComPort {
 
     // interval of reading data from buffer
-    public static final int READ_INTERVAL = 20;
+    //public static final int READ_INTERVAL = 20;
     public static final byte START_SEQUENCE_BYTE = 64;
     
     boolean synced = false;
