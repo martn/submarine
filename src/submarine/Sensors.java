@@ -108,7 +108,7 @@ public class Sensors implements ReadListener {
     }
     
     public double getPWR_UINcam() {
-        return SentenceDataConvertor.getU(data[23])*0.9;
+        return SentenceDataConvertor.getU(data[23])*0.8845;
     }
     
     public double getPWR_Ilog() {
@@ -116,7 +116,7 @@ public class Sensors implements ReadListener {
     }
     
     public double getPWR_Ulog() {
-        return SentenceDataConvertor.getU(data[25])*0.91;
+        return SentenceDataConvertor.getU(data[25])*0.902;
     }
     public double getPWR_Icam() {
         return SentenceDataConvertor.getI(data[26], 50);
