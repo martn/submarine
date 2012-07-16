@@ -21,7 +21,7 @@ public class SubmarinePort extends ComPort {
 
     // interval of reading data from buffer
     //public static final int READ_INTERVAL = 20;
-    public static final int TEST_PERIOD = 2000;
+    public static final int TEST_PERIOD = 3000;
     public static final byte START_SEQUENCE_BYTE = 64;
     String startSequence = "@@@";
     // if true, start sequence is on the beginning of readMemory
