@@ -6,7 +6,9 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -29,7 +31,11 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
     public SubmarineApp() {
         initComponents();
 
+            
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(screenSize.width-this.getWidth(), 0);
 
+        //this.setLocationRelativeTo(null);
         config = new Configuration();
 
         Util.log.logToTextArea(logTextArea);
@@ -227,6 +233,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Submarine");
+        setLocationByPlatform(true);
         setPreferredSize(new java.awt.Dimension(500, 850));
         setResizable(false);
 
