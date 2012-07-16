@@ -108,34 +108,34 @@ public class Sensors implements ReadListener {
     }
     
     public double getPWR_UINcam() {
-        return SentenceDataConvertor.getU(data[23]);
+        return SentenceDataConvertor.getU(data[23])*0.9;
     }
     
     public double getPWR_Ilog() {
-        return SentenceDataConvertor.getI(data[24]);
+        return SentenceDataConvertor.getI(data[24], 50);
     }
     
     public double getPWR_Ulog() {
-        return SentenceDataConvertor.getU(data[25]);
+        return SentenceDataConvertor.getU(data[25])*0.91;
     }
     public double getPWR_Icam() {
-        return SentenceDataConvertor.getI(data[26]);
+        return SentenceDataConvertor.getI(data[26], 50);
     }
     
     public double getPWR_Ieng() {
-        return SentenceDataConvertor.getI(data[27]);
+        return SentenceDataConvertor.getI(data[27], 100);
     }
     
     public double getPWR_Ueng() {
-        return SentenceDataConvertor.getU(data[28]);
+        return SentenceDataConvertor.getU(data[28])*0.86;
     }
     
     public double getPWR_UOUTcam() {
-        return SentenceDataConvertor.getU(data[29]);
+        return SentenceDataConvertor.getU(data[29])*0.86;
     }
     
     public double getPWR_UOUT4() {
-        return SentenceDataConvertor.getU(data[30]);
+        return SentenceDataConvertor.getU(data[30])*0.86;
     }
     
     

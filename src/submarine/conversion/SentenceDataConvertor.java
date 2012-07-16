@@ -29,11 +29,16 @@ public class SentenceDataConvertor {
     }
 
     public static double getLogicVoltage(byte lowByte, byte highByte) {
-        return Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt(highByte);
+        return get10BitVoltageValue(lowByte, highByte);
     }
 
     public static double getServoVoltage(byte lowByte, byte highByte) {
-        return Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt(highByte);
+        return get10BitVoltageValue(lowByte, highByte);
+    }
+    
+    public static double get10BitVoltageValue(byte lowByte, byte highByte) {
+        // rozsah prevodniku / rozsah dat * data
+        return 2.5/1024*(Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt((byte)(0x03 & highByte)));
     }
 
     public static double getDepth(byte highByte, byte lowByte) {
@@ -115,8 +120,8 @@ public class SentenceDataConvertor {
         return -1;
     }
     
-    public static double getI(byte data) {
-        return (double)Util.byte2UnsignedInt(data);
+    public static double getI(byte data, double resolution) {
+        return (252-(double)Util.byte2UnsignedInt(data))*resolution/252;
     }
     
     public static double getU(byte data) {
