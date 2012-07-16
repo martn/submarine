@@ -104,6 +104,7 @@ class ComPort implements Runnable, SerialPortEventListener {
      *
      * thread to clear buffer;
      */
+    @Override
     public void run() {
     }
 

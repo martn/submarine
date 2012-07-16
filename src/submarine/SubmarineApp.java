@@ -13,6 +13,8 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import submarine.communication.ConnectionEvent;
+import submarine.communication.ConnectionListener;
 import submarine.communication.PortNotFoundException;
 import submarine.communication.ReadEvent;
 import submarine.communication.ReadListener;
@@ -21,11 +23,10 @@ import submarine.communication.ReadListener;
  *
  * @author Administrator
  */
-public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
+public class SubmarineApp extends javax.swing.JFrame implements ReadListener, ConnectionListener {
 
     static Configuration config;
     static Submarine submarine;
-    
     DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     /**
@@ -34,26 +35,26 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
     public SubmarineApp() {
         initComponents();
 
-            
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(screenSize.width-this.getWidth(), 0);
+        this.setLocation(screenSize.width - this.getWidth(), 0);
 
         //this.setLocationRelativeTo(null);
         config = new Configuration();
 
         Util.log.logToTextArea(logTextArea);
         Util.log.logToConsole(true);
-        
+
         // ============ INIT VISUALS =========================        
-        
+
         try {
-            URL iconUrl = this.getClass().getResource("resources/submarine-icon.png");            
+            URL iconUrl = this.getClass().getResource("resources/submarine-icon.png");
             ImageIcon icon = new ImageIcon(iconUrl);
             this.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
 
         // ============ INIT FONTS ===========================
 
@@ -81,8 +82,9 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
 
         try {
             submarine = new Submarine(config);
-            
+
             submarine.getPort().addReadListener(this);
+            submarine.getPort().addConnectionListener(this);
 
             // Initial settings
 
@@ -105,26 +107,33 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
          *
          * for (int i = 0; i < ca.length; i++) {
          *
-         * // Get the name of the controller Util.log.write(ca[i].getName());
-        }
+         * // Get the name of the controller Util.log.write(ca[i].getName()); }
          */
     }
-    
-    
+
+    @Override
+    public void ConnectionOccurred(ConnectionEvent evt) {
+        Status.setText(evt.connected ? "OK" : "NO CONNECTION");
+        URL iconUrl = this.getClass().getResource(evt.connected ? "resources/accept.png" : "resources/exclamation.png");
+        Status.setIcon(new ImageIcon(iconUrl));
+    }
+
     @Override
     public void ReadOccurred(ReadEvent evt) {
-        
+
         jTextFieldTemperature.setText(Double.toString(getSensors().getTemperature()));
-        
-        /*jSliderTemperature.setValue((int)temp);*/
-        
-        
+
+        /*
+         * jSliderTemperature.setValue((int)temp);
+         */
+
+
         jTextFieldAzimuth.setText(Integer.toString(getSensors().getAzimuth()));
         jTextFieldBat1.setText(Double.toString(getSensors().getLogicVoltage()));
         jTextFieldBat2.setText(Double.toString(getSensors().getServoVoltage()));
-        
+
         jTextFieldDepth.setText(Double.toString(getSensors().getDepth()));
-        
+
         jTextFieldPWR_Icam.setText(decimalFormat.format(getSensors().getPWR_Icam()));
         jTextFieldPWR_Ieng.setText(decimalFormat.format(getSensors().getPWR_Ieng()));
         jTextFieldPWR_Ilog.setText(decimalFormat.format(getSensors().getPWR_Ilog()));
@@ -133,16 +142,18 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
         jTextFieldPWR_UOUTcam.setText(decimalFormat.format(getSensors().getPWR_UOUTcam()));
         jTextFieldPWR_Ueng.setText(decimalFormat.format(getSensors().getPWR_Ueng()));
         jTextFieldPWR_Ulog.setText(decimalFormat.format(getSensors().getPWR_Ulog()));
-        
-        /*jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
-        jTextFieldAccelY.setText(Integer.toString(dataSentence.getAccelY()));
-        jTextFieldAccelZ.setText(Integer.toString(dataSentence.getAccelZ()));
-        jTextFieldI2C1.setText(Double.toString(dataSentence.getI2C1()));
-        jTextFieldI2C2.setText(Double.toString(dataSentence.getI2C2()));
-        jTextFieldI2C3.setText(Double.toString(dataSentence.getI2C3()));
-        jTextFieldI2C4.setText(Double.toString(dataSentence.getI2C4()));      */  
+
+        /*
+         * jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
+         * jTextFieldAccelY.setText(Integer.toString(dataSentence.getAccelY()));
+         * jTextFieldAccelZ.setText(Integer.toString(dataSentence.getAccelZ()));
+         * jTextFieldI2C1.setText(Double.toString(dataSentence.getI2C1()));
+         * jTextFieldI2C2.setText(Double.toString(dataSentence.getI2C2()));
+         * jTextFieldI2C3.setText(Double.toString(dataSentence.getI2C3()));
+         * jTextFieldI2C4.setText(Double.toString(dataSentence.getI2C4()));
+         */
     }
-    
+
     private Sensors getSensors() {
         return submarine.getSensors();
     }
@@ -1214,7 +1225,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener {
 
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
         // TODO add your handling code here:
-        processWindowEvent( new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
+        processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
     private void jTextFieldPWR_UINcamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPWR_UINcamActionPerformed

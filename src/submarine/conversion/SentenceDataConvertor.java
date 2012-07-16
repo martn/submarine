@@ -41,15 +41,8 @@ public class SentenceDataConvertor {
         return 2.5/1024*(Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt((byte)(0x03 & highByte)));
     }
 
-    public static double getDepth(byte highByte, byte lowByte) {
-        double depth;
-
-        short sh = (short) highByte;
-        sh <<= 8;
-        short ret = (short) (sh | lowByte);
-        depth = ret & 0xFFFF;
-
-        return depth;
+    public static double getDepth(byte lowByte, byte highByte) {
+        return get10BitVoltageValue(lowByte, highByte);
     }
 
     public static double getAdci1(byte highByte, byte lowByte) {
