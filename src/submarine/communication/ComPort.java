@@ -155,7 +155,7 @@ class ComPort implements Runnable, SerialPortEventListener {
      * @param string
      */
     public void write(String string) {
-        Util.log.write("Writing \"" + string + "\" to " + serialPort.getName());
+       // Util.log.write("Writing \"" + string + "\" to " + serialPort.getName());
 
         try {
             // write string to serial port
@@ -170,7 +170,7 @@ class ComPort implements Runnable, SerialPortEventListener {
      */
     public void write(byte b) {
 
-        Util.log.write("Writing \"" + Util.ByteToBinary(b));
+        //Util.log.write("Writing \"" + Util.ByteToBinary(b));
 
         try {
             // write string to serial port

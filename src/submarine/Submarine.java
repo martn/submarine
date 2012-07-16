@@ -19,7 +19,8 @@ import submarine.communication.SubmarinePort;
 public class Submarine {
 
     public static final int ENGINE_RESOLUTION = 24;
-    public static final int SERVO_RESOLUTION = 21;
+    public static final int SERVO_RESOLUTION_H = 15;
+    public static final int SERVO_RESOLUTION_V = 21;
     public static final byte ADRESS_SERVOS = 6;
     public static final byte ADRESS_CAMERA = 8;
     public static final byte ADRESS_ENGINES = 1;
@@ -42,10 +43,10 @@ public class Submarine {
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
-                        
+
         port = new SubmarinePort(config);
         sensors = new Sensors(port);
-        
+
         try {
             gamepad = new Gamepad(this);
 
@@ -71,12 +72,11 @@ public class Submarine {
     public Sensors getSensors() {
         return sensors;
     }
-    
-    
 
     /**
      *
      * sends a push pulse of given number of camera button
+     *
      * @param number index of a button 1 - 16
      */
     public void pushCameraButton(int number) {
@@ -115,10 +115,11 @@ public class Submarine {
     }
 
     /**
-     * 
+     *
      * Sets joystick values, converts them to engine speeds
-     * @param x -1~1 
-     * @param y -1~1 
+     *
+     * @param x -1~1
+     * @param y -1~1
      */
     public void joystick2Engines(float x, float y) {
         float leftValue, rightValue;
@@ -151,15 +152,16 @@ public class Submarine {
 
     /**
      * Sets joystick values, converts them to servos position
+     *
      * @param x
-     * @param y 
+     * @param y
      */
     public void joystick2Servos(float x, float y) {
         int h_old = servo_position[SERVO_HORIZONTAL];
         int v_old = servo_position[SERVO_VERTICAL];
 
-        int h = setServoPosition(SERVO_HORIZONTAL, (int) Math.floor(x * SERVO_RESOLUTION));
-        int v = setServoPosition(SERVO_VERTICAL, (int) Math.floor(y * SERVO_RESOLUTION));
+        int h = setServoPosition(SERVO_HORIZONTAL, (int) Math.floor(x * SERVO_RESOLUTION_H));
+        int v = setServoPosition(SERVO_VERTICAL, (int) Math.floor(y * SERVO_RESOLUTION_V));
 
         if (h_old != h || v_old != v) {
             Util.log.write("Horizontal: " + h + " Vertical: " + v);
@@ -169,6 +171,7 @@ public class Submarine {
     /**
      *
      * sets speed of selected engine
+     *
      * @param id
      * @param speed
      */
@@ -194,8 +197,8 @@ public class Submarine {
     }
 
     /**
-     * increments current engine speed, if possible.
-     * returns actual value
+     * increments current engine speed, if possible. returns actual value
+     *
      * @param id
      * @return
      */
@@ -205,6 +208,7 @@ public class Submarine {
 
     /**
      * decrements current engine speed, if possible
+     *
      * @param id
      * @return
      */
@@ -214,6 +218,7 @@ public class Submarine {
 
     /**
      * increments servo position if possible
+     *
      * @return
      */
     public int incrementServoPosition(int id) {
@@ -222,6 +227,7 @@ public class Submarine {
 
     /**
      * decrements servo position if possible
+     *
      * @return
      */
     public int decrementServoPosition(int id) {
@@ -230,29 +236,30 @@ public class Submarine {
 
     /**
      * sets servo position
+     *
      * @param position
      */
     public int setServoPosition(int id, int position) {
-        if (position <= SERVO_RESOLUTION & position >= -SERVO_RESOLUTION) {
 
-            if (servo_position[id] != position) {
-                // if last position is different
+        int res = id == SERVO_VERTICAL ? SERVO_RESOLUTION_V : SERVO_RESOLUTION_H;
+        position = (int) Math.signum(position) * Math.min(Math.abs(position), res);
 
-                servo_position[id] = position;
+        if (servo_position[id] != position) {
+            // if last position is different
 
-                //System.out.println(position);
+            servo_position[id] = position;
+            
+            //System.out.println(position);
 
-                port.setAdress((byte) (ADRESS_SERVOS + id));
-                port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
-            }
-            return position;
-        } else {
-            return position > 0 ? SERVO_RESOLUTION : -SERVO_RESOLUTION;
+            port.setAdress((byte) (ADRESS_SERVOS + id));
+            port.setData((byte) (position < 0 ? Math.abs(position) + 64 : position));
         }
+        return position;
     }
 
     /**
      * returns servo position
+     *
      * @return
      */
     public int getServoPosition(int id) {
@@ -261,6 +268,7 @@ public class Submarine {
 
     /**
      * returns speed of selected engine
+     *
      * @param id
      */
     public int getEngineSpeed(int id) {
