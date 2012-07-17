@@ -5,8 +5,6 @@
 package submarine.communication;
 
 import com.martinnovak.utils.Configuration;
-import com.martinnovak.utils.HexCodec;
-import com.martinnovak.utils.Util;
 import java.util.Arrays;
 import java.util.Timer;
 import javax.swing.event.EventListenerList;
@@ -27,7 +25,7 @@ public class SubmarinePort extends ComPort {
     // if true, start sequence is on the beginning of readMemory
     boolean readValid = false;
     boolean connectedStatus = false;
-    boolean oldConnectedStatus = false;
+    boolean oldConnectedStatus = true;
     private Timer timer = null;    // = new Timer();
     //private ConnectionTestTimerTask testTimerTask = new ConnectionTestTimerTask(this);
     // updated pure read memory / sensors

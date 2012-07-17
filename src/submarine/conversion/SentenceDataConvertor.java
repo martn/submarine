@@ -38,7 +38,7 @@ public class SentenceDataConvertor {
     
     public static double get10BitVoltageValue(byte lowByte, byte highByte) {
         // rozsah prevodniku / rozsah dat * data
-        return 2.5/1024*(Util.byte2UnsignedInt(lowByte) + 256*Util.byte2UnsignedInt((byte)(0x03 & highByte)));
+        return 2.5/1024*((Util.byte2UnsignedInt(highByte) << 2) + Util.byte2UnsignedInt((byte)(0x03 & lowByte)));
     }
 
     public static double getDepth(byte lowByte, byte highByte) {
@@ -63,38 +63,15 @@ public class SentenceDataConvertor {
 
     public static int getAccelX(byte highByte, byte lowByte) {
         // TODO
-        int accelX;
-
-        short sh = (short) (highByte & 0xFF);
-        sh <<= 8;
-
-        short ret = (short) (sh | (short) lowByte & 0xFF);
-        accelX = ret & 0xFF;
-
-        return accelX;
+        return (Util.byte2UnsignedInt(highByte) << 8) + Util.byte2UnsignedInt(lowByte);
     }
 
-    public static int getAccelY(byte highByte, byte lowByte) {
-        int accelY;
-
-        short sh = (short) (highByte & 0xFF);
-        sh <<= 8;
-
-        int ret = sh | lowByte & 0xFF;
-        accelY = ret & 0xFF;
-
-        return accelY;
+    public static int getAccelY(byte highByte, byte lowByte) {        
+        return (Util.byte2UnsignedInt(highByte) << 8) + Util.byte2UnsignedInt(lowByte);
     }
 
     public static int getAccelZ(byte highByte, byte lowByte) {
-        int accelZ;
-
-        short sh = (short) highByte;
-        sh <<= 8;
-        short ret = (short) (sh | lowByte);
-        accelZ = ret & 0xFF;
-
-        return accelZ;
+        return (Util.byte2UnsignedInt(highByte) << 8) + Util.byte2UnsignedInt(lowByte);
     }
 
     public static double getI2C1(byte highByte, byte lowByte) {
