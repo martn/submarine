@@ -71,11 +71,11 @@ public class Sensors implements ReadListener {
     }
 
     public double getServoVoltage() {
-        return SentenceDataConvertor.getServoVoltage(data[9], data[10]);
+        return SentenceDataConvertor.getServoVoltage(data[11], data[12]);
     }
 
     public double getDepth() {
-        return SentenceDataConvertor.getDepth(data[11], data[12]);
+        return SentenceDataConvertor.getDepth(data[9], data[10]);
     }
 
     // TODO
