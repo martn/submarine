@@ -27,9 +27,9 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
     static Configuration config;
     static Submarine submarine;
-    DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    DecimalFormat decimalFormat = new DecimalFormat("0.0");
     DecimalFormat decimalFormat0 = new DecimalFormat("0");
-    DecimalFormat decimalFormat3 = new DecimalFormat("0.000");
+    DecimalFormat decimalFormat3 = new DecimalFormat("0.00");
 
     /**
      * Creates new form SubmarineApp
