@@ -29,7 +29,8 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
     static Submarine submarine;
     DecimalFormat decimalFormat = new DecimalFormat("0.0");
     DecimalFormat decimalFormat0 = new DecimalFormat("0");
-    DecimalFormat decimalFormat3 = new DecimalFormat("0.00");
+    DecimalFormat decimalFormat2 = new DecimalFormat("0.00");
+    DecimalFormat decimalFormat3 = new DecimalFormat("0.000");
 
     /**
      * Creates new form SubmarineApp
@@ -131,8 +132,8 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
 
         jTextFieldAzimuth.setText(Integer.toString(getSensors().getAzimuth()));
-        jTextFieldBat1.setText(decimalFormat3.format(getSensors().getLogicVoltage()));
-        jTextFieldBat2.setText(decimalFormat3.format(getSensors().getServoVoltage()));
+        jTextFieldBat1.setText(decimalFormat2.format(getSensors().getLogicVoltage()));
+        jTextFieldBat2.setText(decimalFormat2.format(getSensors().getServoVoltage()));
 
         jTextFieldDepth.setText(decimalFormat3.format(getSensors().getDepth()));
         
