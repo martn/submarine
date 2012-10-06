@@ -105,7 +105,7 @@ public class Submarine {
         power_config = value ? (byte) (power_config | conf) : (byte) (power_config & ~conf);
 
         port.setAdress(ADRESS_POWER);
-
+ 
         // invert, zero last bit
         port.setData((byte) (~power_config & 127));
     }
