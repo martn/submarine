@@ -26,12 +26,13 @@ public class Gamepad {
     // needs to be fast to catch fast button pressing!
     private Timer pollTimer;   // timer which triggers the polling
     private Submarine submarine;
+    private boolean[] buttons = new boolean[50];
 
     public Gamepad(Submarine subm) throws GamepadNotFoundException {
 
         gpController = new GamePadController();
         submarine = subm;
-
+        
         printDetails(getController(), System.out);
 
         startPolling();
@@ -64,7 +65,19 @@ public class Gamepad {
         submarine.joystick2Servos(-zrValue[0], -zrValue[1]);
         
         // get button settings
-        boolean[] buttons = gpController.getButtons();
+        boolean[] newButtons = gpController.getButtons();
+        
+        if(newButtons[0] && !buttons[0]) {            
+            submarine.goDown();
+        }
+        
+        if(newButtons[3] && !buttons[3]) {
+            submarine.goUp();
+        }
+        
+        buttons = newButtons;
+        
+        //System.out.println(newButtons[0] +" " + newButtons[1] +" " + newButtons[2] +" " + newButtons[3]);
         //buttonsPanel.setButtons(buttons);
     }
     

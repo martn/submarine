@@ -29,11 +29,11 @@ public class SentenceDataConvertor {
     }
 
     public static double getLogicVoltage(byte lowByte, byte highByte) {
-        return get10BitVoltageValue(lowByte, highByte);
+        return get10BitVoltageValue(lowByte, highByte)*10;
     }
 
     public static double getServoVoltage(byte lowByte, byte highByte) {
-        return get10BitVoltageValue(lowByte, highByte);
+        return get10BitVoltageValue(lowByte, highByte)*10;
     }
     
     public static double get10BitVoltageValue(byte lowByte, byte highByte) {

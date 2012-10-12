@@ -25,6 +25,7 @@ public class Submarine {
     public static final byte ADRESS_CAMERA = 8;
     public static final byte ADRESS_ENGINES = 1;
     public static final byte ADRESS_POWER = 9;
+    public static final byte ADRESS_PING = 10;
     public static final int CAMERA_RELEASE_DELAY = 400;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
@@ -167,6 +168,30 @@ public class Submarine {
             Util.log.write("Horizontal: " + h + " Vertical: " + v);
         }
     }
+    
+    /**
+     * Goes up with the submarine
+     * @return 
+     */
+    public void goUp() {
+        Util.log.write("Go up");
+        incrementEngineSpeed(2);
+        incrementEngineSpeed(3);
+        incrementEngineSpeed(4);        
+    }
+     
+    
+    /**
+     * Goes up with the submarine
+     * @return 
+     */
+    public void goDown() {
+        Util.log.write("Go down");
+        decrementEngineSpeed(2);
+        incrementEngineSpeed(3);
+        incrementEngineSpeed(4);        
+    }
+     
 
     /**
      *
@@ -176,8 +201,6 @@ public class Submarine {
      * @param speed
      */
     public int setEngineSpeed(int id, int speed) {
-
-
         // max min test
         if (speed <= ENGINE_RESOLUTION & speed >= -ENGINE_RESOLUTION) {
             if (engine_speeds[id] != speed) {
