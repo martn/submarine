@@ -6,11 +6,9 @@ package submarine;
 
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
+import java.util.Timer;
 import net.java.games.input.Controller;
-import submarine.communication.Gamepad;
-import submarine.communication.GamepadNotFoundException;
-import submarine.communication.PortNotFoundException;
-import submarine.communication.SubmarinePort;
+import submarine.communication.*;
 
 /**
  *
@@ -40,6 +38,8 @@ public class Submarine {
     public Controller controler;
     public Gamepad gamepad;
     private Configuration config;
+    private Timer timer = null;    // = new Timer();
+    public static final int PING_PERIOD = 2000;
     //private Timer cameraBtnReleaseTimer = new Timer();  // timer for button release
 
     public Submarine(Configuration conf) throws PortNotFoundException {
@@ -64,6 +64,8 @@ public class Submarine {
         for (int i = 0; i < servo_position.length; i++) {
             servo_position[i] = 0;
         }
+        
+        restartTestTimer();
     }
 
     public SubmarinePort getPort() {
@@ -72,6 +74,25 @@ public class Submarine {
 
     public Sensors getSensors() {
         return sensors;
+    }
+    
+    private void restartTestTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        timer = new Timer();
+        timer.schedule(new PingTimerTask(this), PING_PERIOD);
+    }
+
+    /**
+     * Pings the submarine
+     */
+    public void sendPing() {
+        Util.log.write("Sending ping");
+        port.setAdress(ADRESS_PING);
+        port.setData(1);
+        restartTestTimer();
     }
 
     /**
@@ -106,7 +127,7 @@ public class Submarine {
         power_config = value ? (byte) (power_config | conf) : (byte) (power_config & ~conf);
 
         port.setAdress(ADRESS_POWER);
- 
+
         // invert, zero last bit
         port.setData((byte) (~power_config & 127));
     }
@@ -168,30 +189,30 @@ public class Submarine {
             Util.log.write("Horizontal: " + h + " Vertical: " + v);
         }
     }
-    
+
     /**
      * Goes up with the submarine
-     * @return 
+     *
+     * @return
      */
     public void goUp() {
         Util.log.write("Go up");
         incrementEngineSpeed(2);
         incrementEngineSpeed(3);
-        incrementEngineSpeed(4);        
+        incrementEngineSpeed(4);
     }
-     
-    
+
     /**
      * Goes up with the submarine
-     * @return 
+     *
+     * @return
      */
     public void goDown() {
         Util.log.write("Go down");
         decrementEngineSpeed(2);
         incrementEngineSpeed(3);
-        incrementEngineSpeed(4);        
+        incrementEngineSpeed(4);
     }
-     
 
     /**
      *
@@ -271,7 +292,7 @@ public class Submarine {
             // if last position is different
 
             servo_position[id] = position;
-            
+
             //System.out.println(position);
 
             port.setAdress((byte) (ADRESS_SERVOS + id));

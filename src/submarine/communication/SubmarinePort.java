@@ -225,4 +225,14 @@ public class SubmarinePort extends ComPort {
         // shifts one bit to the left (protocol)
         write((byte) ((byte) data & (byte) 127));
     }
+    
+    /**
+     * writes data to previously selected address
+     *
+     * @param data
+     */
+    public void setData(int data) {
+        // shifts one bit to the left (protocol)
+        setData((byte) data);
+    }
 }
