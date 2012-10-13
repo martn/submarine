@@ -24,6 +24,10 @@ public class Submarine {
     public static final byte ADRESS_ENGINES = 1;
     public static final byte ADRESS_POWER = 9;
     public static final byte ADRESS_PING = 10;
+    public static final byte ADRESS_FUNCTION1 = 11;
+    public static final byte ADRESS_FUNCTION2 = 12;
+    public static final byte ADRESS_PROGRAM = 13;
+    public static final byte ADRESS_RESET = 14;
     public static final int CAMERA_RELEASE_DELAY = 400;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
@@ -67,7 +71,7 @@ public class Submarine {
         
         restartTestTimer();
     }
-
+    
     public SubmarinePort getPort() {
         return port;
     }
@@ -93,6 +97,30 @@ public class Submarine {
         port.setAdress(ADRESS_PING);
         port.setData(1);
         restartTestTimer();
+    }
+    
+    /**
+     * Sets a program mode of the submarine
+     * @param program 
+     */
+    public void setProgramMode(boolean program) {
+        port.setAdress(ADRESS_PROGRAM);
+        byte data;
+        if(program) {
+            data = 1;
+        } else {
+            data = 0;
+        }
+        port.setData(data);
+    }
+    
+    /**
+     * Sends a reset pulse
+     * @param program 
+     */
+    public void reset() {
+        port.setAdress(ADRESS_RESET);
+        port.setData(1);
     }
 
     /**
