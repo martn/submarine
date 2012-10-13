@@ -171,7 +171,7 @@ class ComPort implements Runnable, SerialPortEventListener {
      */
     public void write(byte b) {
 
-        //Util.log.write("Writing \"" + Util.ByteToBinary(b));
+        Util.log.write("Writing \"" + Util.ByteToBinary(b));
 
         try {
             // write string to serial port

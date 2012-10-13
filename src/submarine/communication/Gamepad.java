@@ -4,6 +4,7 @@
  */
 package submarine.communication;
 
+import com.martinnovak.utils.Util;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -66,6 +67,13 @@ public class Gamepad {
         
         // get button settings
         boolean[] newButtons = gpController.getButtons();
+        
+        for(int i=0; i<buttons.length; i++) {
+            boolean btn = buttons[i];
+            if(btn) {
+                Util.log.write("BUTTON PRESSED: \"" + i);
+            }
+        }
         
         if(newButtons[0] && !buttons[0]) {            
             submarine.goDown();
