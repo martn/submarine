@@ -69,7 +69,7 @@ public class Submarine {
             servo_position[i] = 0;
         }
         
-        restartTestTimer();
+        startPinging();        
     }
     
     public SubmarinePort getPort() {
@@ -99,6 +99,16 @@ public class Submarine {
         restartTestTimer();
     }
     
+    private void startPinging() {
+        restartTestTimer();
+    }
+    
+    private void stopPinging() {
+        if(timer != null) {
+            timer.cancel();
+        }        
+    }
+    
     /**
      * Sets a program mode of the submarine
      * @param program 
@@ -108,8 +118,10 @@ public class Submarine {
         byte data;
         if(program) {
             data = 1;
+            stopPinging();
         } else {
             data = 0;
+            startPinging();
         }
         port.setData(data);
     }
@@ -238,8 +250,8 @@ public class Submarine {
     public void goDown() {
         Util.log.write("Go down");
         decrementEngineSpeed(2);
-        incrementEngineSpeed(3);
-        incrementEngineSpeed(4);
+        decrementEngineSpeed(3);
+        decrementEngineSpeed(4);
     }
 
     /**
