@@ -68,14 +68,15 @@ public class Gamepad {
         // get button settings
         boolean[] newButtons = gpController.getButtons();
         
+        /*
         for(int i=0; i<buttons.length; i++) {
             boolean btn = buttons[i];
             if(btn) {
                 Util.log.write("BUTTON PRESSED: \"" + i);
             }
-        }
+        }*/
         
-        if(newButtons[0] && !buttons[0]) {            
+        if(newButtons[1] && !buttons[1]) {            
             submarine.goDown();
         }
         
