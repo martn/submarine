@@ -17,6 +17,7 @@ import submarine.communication.*;
 public class Submarine {
 
     public static final int ENGINE_RESOLUTION = 24;
+    public static final int ENGINE_RESOLUTION_V = 36; // resolution for vertical engines
     public static final int SERVO_RESOLUTION_H = 15;
     public static final int SERVO_RESOLUTION_V = 21;
     public static final byte ADRESS_SERVOS = 6;
@@ -163,11 +164,9 @@ public class Submarine {
     public void setPowerConfig(int number, boolean value) {
         // start from zero
         byte conf = (byte) (1 << (number - 1));
-
         power_config = value ? (byte) (power_config | conf) : (byte) (power_config & ~conf);
 
         port.setAdress(ADRESS_POWER);
-
         // invert, zero last bit
         port.setData((byte) (~power_config & 127));
     }
@@ -263,7 +262,13 @@ public class Submarine {
      */
     public int setEngineSpeed(int id, int speed) {
         // max min test
-        if (speed <= ENGINE_RESOLUTION & speed >= -ENGINE_RESOLUTION) {
+        int resolution = ENGINE_RESOLUTION;
+        if(id >= 2) {
+            // engine is vertical ???
+            resolution = ENGINE_RESOLUTION_V;
+        }
+        
+        if (speed <= resolution & speed >= -resolution) {
             if (engine_speeds[id] != speed) {
                 engine_speeds[id] = speed;
 
@@ -272,11 +277,11 @@ public class Submarine {
                 port.setAdress((byte) (ADRESS_ENGINES + id));
 
                 int polarity = speed < 0 ? 64 : 0;
-                port.setData((byte) (polarity | (Math.abs(speed) * 63 / ENGINE_RESOLUTION)));
+                port.setData((byte) (polarity | (Math.abs(speed) * 63 / resolution)));
             }
             return speed;
         } else {
-            return speed > 0 ? ENGINE_RESOLUTION : -ENGINE_RESOLUTION;
+            return speed > 0 ? resolution : -resolution;
         }
     }
 

@@ -13,11 +13,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
-import submarine.communication.ConnectionEvent;
-import submarine.communication.ConnectionListener;
-import submarine.communication.PortNotFoundException;
-import submarine.communication.ReadEvent;
-import submarine.communication.ReadListener;
+import submarine.communication.*;
 
 /**
  *
@@ -126,11 +122,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
         jTextFieldTemperature.setText(Double.toString(getSensors().getTemperature()));
 
-        /*
-         * jSliderTemperature.setValue((int)temp);
-         */
-
-
         jTextFieldAzimuth.setText(Integer.toString(getSensors().getAzimuth()));
         jTextFieldBat1.setText(decimalFormat2.format(getSensors().getLogicVoltage()));
         jTextFieldBat2.setText(decimalFormat2.format(getSensors().getServoVoltage()));
@@ -149,16 +140,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         jTextFieldPWR_UOUTcam.setText(decimalFormat.format(getSensors().getPWR_UOUTcam()));
         jTextFieldPWR_Ueng.setText(decimalFormat.format(getSensors().getPWR_Ueng()));
         jTextFieldPWR_Ulog.setText(decimalFormat.format(getSensors().getPWR_Ulog()));
-
-        /*
-         * jTextFieldAccelX.setText(Integer.toString(dataSentence.getAccelX()));
-         * jTextFieldAccelY.setText(Integer.toString(dataSentence.getAccelY()));
-         * jTextFieldAccelZ.setText(Integer.toString(dataSentence.getAccelZ()));
-         * jTextFieldI2C1.setText(Double.toString(dataSentence.getI2C1()));
-         * jTextFieldI2C2.setText(Double.toString(dataSentence.getI2C2()));
-         * jTextFieldI2C3.setText(Double.toString(dataSentence.getI2C3()));
-         * jTextFieldI2C4.setText(Double.toString(dataSentence.getI2C4()));
-         */
     }
 
     private Sensors getSensors() {
