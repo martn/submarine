@@ -55,7 +55,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,119,0,0,2,47"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,6,0,0,1,-16"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -83,7 +83,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="Status" min="-2" pref="205" max="-2" attributes="0"/>
-                  <EmptySpace pref="340" max="32767" attributes="0"/>
+                  <EmptySpace pref="277" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -144,7 +144,7 @@
                       <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="117" max="32767" attributes="0"/>
+                      <EmptySpace pref="54" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1030,7 +1030,7 @@
                       </Border>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[200, 180]"/>
+                      <Dimension value="[220, 180]"/>
                     </Property>
                   </Properties>
 
@@ -1076,7 +1076,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="86" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1263,122 +1263,215 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PowerPanel">
+                <Container class="javax.swing.JPanel" name="jPanel9">
                   <Properties>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Power"/>
-                      </Border>
-                    </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[150, 353]"/>
+                      <Dimension value="[280, 275]"/>
                     </Property>
                   </Properties>
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="PowerButton4" max="32767" attributes="0"/>
-                                  <Component id="PowerButton1" max="32767" attributes="0"/>
-                                  <Component id="PowerButton5" max="32767" attributes="0"/>
-                                  <Component id="PowerButton7" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jPanel10" max="32767" attributes="0"/>
+                                  <Component id="PowerPanel" pref="256" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="PowerButton3" max="32767" attributes="0"/>
-                                  <Component id="PowerButton2" max="32767" attributes="0"/>
-                                  <Component id="PowerButton6" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="94" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="PowerPanel" min="-2" pref="144" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="PowerButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PowerButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel10" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="PowerButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PowerButton4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="PowerButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PowerButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PowerButton7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="132" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton1">
+                    <Container class="javax.swing.JPanel" name="PowerPanel">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="5V"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="Power"/>
+                          </Border>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[150, 353]"/>
+                        </Property>
                       </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton1ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton2">
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="PowerButton3" max="32767" attributes="0"/>
+                                      <Component id="PowerButton2" max="32767" attributes="0"/>
+                                      <Component id="PowerButton6" min="-2" pref="79" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="PowerButton1" min="-2" pref="51" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="PowerButton7" min="-2" pref="51" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="PowerButton4" min="-2" max="-2" attributes="0"/>
+                                              <Component id="PowerButton5" min="-2" pref="51" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace pref="57" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="PowerButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="PowerButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="PowerButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="PowerButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="PowerButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="PowerButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="PowerButton6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton1">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="5V"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton1ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton2">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Servo"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton2ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton3">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Regulator"/>
+                            <Property name="toolTipText" type="java.lang.String" value=""/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton3ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton5">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="5"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton5ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton4">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="12V"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton4ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton6">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Camera"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton6ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JToggleButton" name="PowerButton7">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="7"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton7ActionPerformed"/>
+                          </Events>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel10">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Servo"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="Load"/>
+                          </Border>
+                        </Property>
                       </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton2ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton3">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Regulator"/>
-                        <Property name="toolTipText" type="java.lang.String" value=""/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton3ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton5">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="5"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton5ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton4">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="12V"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton4ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton6">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Camera"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton6ActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="PowerButton7">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="7"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PowerButton7ActionPerformed"/>
-                      </Events>
-                    </Component>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" pref="55" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabelVerticalEngines" min="-2" pref="69" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelVerticalEngines" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jLabel9">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="14" style="0"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Vertical:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabelVerticalEngines">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="16" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="0%"/>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -1404,7 +1497,7 @@
                               <Component id="jPanel8" max="32767" attributes="0"/>
                               <Component id="jPanel7" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="397" max="32767" attributes="0"/>
+                          <EmptySpace pref="334" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

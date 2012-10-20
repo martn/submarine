@@ -19,7 +19,7 @@ import submarine.communication.*;
  *
  * @author Administrator
  */
-public class SubmarineApp extends javax.swing.JFrame implements ReadListener, ConnectionListener {
+public class SubmarineApp extends javax.swing.JFrame implements ReadListener, ConnectionListener, CommandListener {
 
     static Configuration config;
     static Submarine submarine;
@@ -84,8 +84,10 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
             submarine.getPort().addReadListener(this);
             submarine.getPort().addConnectionListener(this);
+            
+            submarine.addCommandListener(this);
 
-            // Initial settings
+            // Initial settings            
 
             // stop engines and servo to 0 position
             submarine.setEngineSpeed(0, 0);
@@ -96,7 +98,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
             submarine.setServoPosition(0, 0);
             submarine.setServoPosition(1, 0);
-
+            
         } catch (PortNotFoundException e) {
             Util.log.write("Port Not Found");
         }
@@ -115,6 +117,16 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         Status.setText(evt.connected ? "OK" : "NO CONNECTION");
         URL iconUrl = this.getClass().getResource(evt.connected ? "resources/accept.png" : "resources/exclamation.png");
         Status.setIcon(new ImageIcon(iconUrl));
+    }
+    
+    @Override
+    public void CommandOccurred(CommandEvent evt) {
+        if("engine".equals(evt.type)) {
+            if(evt.id == 2) {                
+                int p = Math.round(100*evt.value/Submarine.ENGINE_RESOLUTION_V);
+                jLabelVerticalEngines.setText(p+"%");
+            }
+        }
     }
 
     @Override
@@ -225,6 +237,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         cameraButton8_Ok = new javax.swing.JButton();
         cameraButton3_Menu = new javax.swing.JButton();
         cameraButton4_Cancel = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
         PowerPanel = new javax.swing.JPanel();
         PowerButton1 = new javax.swing.JToggleButton();
         PowerButton2 = new javax.swing.JToggleButton();
@@ -233,6 +246,9 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         PowerButton4 = new javax.swing.JToggleButton();
         PowerButton6 = new javax.swing.JToggleButton();
         PowerButton7 = new javax.swing.JToggleButton();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabelVerticalEngines = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jButtonReset = new javax.swing.JButton();
@@ -271,7 +287,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addContainerGap(277, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -726,7 +742,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         SensorsPanelLayout.setVerticalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,7 +761,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         Control.setLayout(new javax.swing.BoxLayout(Control, javax.swing.BoxLayout.X_AXIS));
 
         CameraPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Camera"));
-        CameraPanel.setPreferredSize(new java.awt.Dimension(200, 180));
+        CameraPanel.setPreferredSize(new java.awt.Dimension(220, 180));
 
         cameraButton12_F.setText("F");
         cameraButton12_F.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -931,7 +947,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                         .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cameraButton2_Down)
                             .addComponent(cameraButton8_Ok))))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         CameraPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
@@ -974,6 +990,8 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         CameraPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
 
         Control.add(CameraPanel);
+
+        jPanel9.setPreferredSize(new java.awt.Dimension(280, 275));
 
         PowerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Power"));
         PowerPanel.setPreferredSize(new java.awt.Dimension(150, 353));
@@ -1035,16 +1053,21 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
             .addGroup(PowerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PowerButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PowerButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PowerButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PowerButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PowerButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PowerButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PowerButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                    .addComponent(PowerButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PowerPanelLayout.createSequentialGroup()
+                        .addComponent(PowerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PowerButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PowerPanelLayout.createSequentialGroup()
+                        .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PowerButton4)
+                            .addComponent(PowerButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41))
         );
         PowerPanelLayout.setVerticalGroup(
             PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1052,7 +1075,8 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addContainerGap()
                 .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PowerButton1)
-                    .addComponent(PowerButton2))
+                    .addComponent(PowerButton2)
+                    .addComponent(PowerButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PowerButton3)
@@ -1061,12 +1085,58 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PowerButton5)
                     .addComponent(PowerButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PowerButton7)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        Control.add(PowerPanel);
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Load"));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Vertical:");
+
+        jLabelVerticalEngines.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelVerticalEngines.setText("0%");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelVerticalEngines, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabelVerticalEngines))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(PowerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        Control.add(jPanel9);
 
         MainTabPanel.addTab("Control", Control);
 
@@ -1133,7 +1203,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(397, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1486,6 +1556,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAccelX;
     private javax.swing.JLabel jLabelAccelY;
     private javax.swing.JLabel jLabelAccelZ;
@@ -1501,10 +1572,12 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
     private javax.swing.JLabel jLabelUBattery7;
     private javax.swing.JLabel jLabelUBattery8;
     private javax.swing.JLabel jLabelUBattery9;
+    private javax.swing.JLabel jLabelVerticalEngines;
     private javax.swing.JMenu jMenuEdit;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1512,6 +1585,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldAccelX;
     private javax.swing.JTextField jTextFieldAccelY;

@@ -7,6 +7,7 @@ package submarine;
 import com.martinnovak.utils.Configuration;
 import com.martinnovak.utils.Util;
 import java.util.Timer;
+import javax.swing.event.EventListenerList;
 import net.java.games.input.Controller;
 import submarine.communication.*;
 
@@ -46,6 +47,7 @@ public class Submarine {
     private Timer timer = null;    // = new Timer();
     public static final int PING_PERIOD = 2000;
     //private Timer cameraBtnReleaseTimer = new Timer();  // timer for button release
+    protected EventListenerList listenerList = new EventListenerList();
 
     public Submarine(Configuration conf) throws PortNotFoundException {
         config = conf;
@@ -71,6 +73,26 @@ public class Submarine {
         }
         
         startPinging();        
+    }
+    
+    public void addCommandListener(CommandListener listener) {
+        listenerList.add(CommandListener.class, listener);
+    }
+    
+    public void removeCommandListener(CommandListener listener) {
+        listenerList.remove(CommandListener.class, listener);
+    }
+    
+    // This private class is used to fire MyEvents
+    void fireCommandEvent(CommandEvent evt) {
+        Object[] listeners = listenerList.getListenerList();
+        // Each listener occupies two elements - the first is the listener class
+        // and the second is the listener instance
+        for (int i = 0; i < listeners.length; i += 2) {
+            if (listeners[i] == CommandListener.class) {
+                ((CommandListener) listeners[i + 1]).CommandOccurred(evt);
+            }
+        }
     }
     
     public SubmarinePort getPort() {
@@ -278,6 +300,8 @@ public class Submarine {
 
                 int polarity = speed < 0 ? 64 : 0;
                 port.setData((byte) (polarity | (Math.abs(speed) * 63 / resolution)));
+                
+                fireCommandEvent(new CommandEvent(this, "engine", id, speed));
             }
             return speed;
         } else {
