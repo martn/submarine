@@ -28,6 +28,8 @@ public class Gamepad {
     private Timer pollTimer;   // timer which triggers the polling
     private Submarine submarine;
     private boolean[] buttons = new boolean[50];
+    private int[] buttonsOverflow = new int[50];
+    public static final int OVERFLOW = 4;
 
     public Gamepad(Submarine subm) throws GamepadNotFoundException {
 
@@ -35,6 +37,10 @@ public class Gamepad {
         submarine = subm;
         
         printDetails(getController(), System.out);
+        
+        for(int i=0;i<buttonsOverflow.length;i++) {
+            buttonsOverflow[i] =0;
+        }
 
         startPolling();
     }
@@ -76,12 +82,32 @@ public class Gamepad {
             }
         }*/
         
-        if(newButtons[1] && !buttons[1]) {            
-            submarine.goDown();
+        if(newButtons[1]) {
+            
+            if(!buttons[1]) {
+                // just pressed
+                submarine.goDown();
+            }
+            
+            buttonsOverflow[1]++;
+            if(buttonsOverflow[1] == OVERFLOW) {
+                buttonsOverflow[1] = 0;
+                submarine.goDown();
+            }
         }
         
-        if(newButtons[3] && !buttons[3]) {
-            submarine.goUp();
+        if(newButtons[3]) {
+            
+            if(!buttons[3]) {
+                // just pressed
+                submarine.goUp();
+            }
+            
+            buttonsOverflow[3]++;
+            if(buttonsOverflow[3] == OVERFLOW) {
+                buttonsOverflow[3] = 0;
+                submarine.goUp();
+            }
         }
         
         buttons = newButtons;
