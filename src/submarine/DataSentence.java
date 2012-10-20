@@ -51,7 +51,7 @@ public class DataSentence {
     }
 
     public double getDepth() {
-        return SentenceDataConvertor.getDepth(sentence[8], sentence[9]);
+        return SentenceDataConvertor.getPressure(sentence[8], sentence[9]);
     }
 
     // TODO

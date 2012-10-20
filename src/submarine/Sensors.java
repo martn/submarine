@@ -24,21 +24,20 @@ public class Sensors implements ReadListener {
     public static final int DATA_INDEX_AZIMUTH = 5;
     public static final int DATA_INDEX_BATTERY1 = 7;
     public static final int DATA_INDEX_BATTERY2 = 9;
-    
     // private Map<String, Double> _sentence = new HashMap<String, Double>();
     private byte[] data;
     private DecimalFormat decimalFormatDouble = new DecimalFormat("#0.00");
     private SubmarinePort port;
+    private double depthOffset = 0;
 
     public Sensors(SubmarinePort port) {
         this.port = port;
-        
+
         port.addReadListener(this);
-        
+
         decimalFormatDouble.setRoundingMode(RoundingMode.UP);
     }
-    
-    
+
     @Override
     public void ReadOccurred(ReadEvent evt) {
         setData(port.getReadMemory());
@@ -46,14 +45,14 @@ public class Sensors implements ReadListener {
 
     /**
      * Sets new read data array
-     * @param d 
+     *
+     * @param d
      */
-    public void setData(byte[] d) {        
+    public void setData(byte[] d) {
         data = Arrays.copyOfRange(d, 0, READ_BYTES);
         //Util.log.write(HexCodec.bytes2Hex(data));
     }
-        
-    
+
     // temperature
     public double getTemperature() {
         // TO DO
@@ -65,7 +64,7 @@ public class Sensors implements ReadListener {
     public int getAzimuth() {
         return SentenceDataConvertor.getAzimuth(data[5]);
     }
-    
+
     public double getLogicVoltage() {
         return SentenceDataConvertor.getLogicVoltage(data[7], data[8]);
     }
@@ -75,7 +74,14 @@ public class Sensors implements ReadListener {
     }
 
     public double getDepth() {
-        return SentenceDataConvertor.getDepth(data[9], data[10]);
+        return SentenceDataConvertor.getPressure(data[9], data[10]) - depthOffset;
+    }
+    
+    /**
+     * Resets the actual depth to zero
+     */
+    public void resetDepth() {
+        depthOffset = getDepth();
     }
 
     // TODO
@@ -106,68 +112,61 @@ public class Sensors implements ReadListener {
     public double getI2C4() {
         return SentenceDataConvertor.getI2C4(data[8], data[9]);
     }
-    
+
     public double getPWR_UINcam() {
-        return SentenceDataConvertor.getU(data[23])*0.8845;
+        return SentenceDataConvertor.getU(data[23]) * 0.8845;
     }
-    
+
     public double getPWR_Ilog() {
         return SentenceDataConvertor.getI(data[24], 50);
     }
-    
+
     public double getPWR_Ulog() {
-        return SentenceDataConvertor.getU(data[25])*0.894;
+        return SentenceDataConvertor.getU(data[25]) * 0.894;
     }
+
     public double getPWR_Icam() {
         return SentenceDataConvertor.getI(data[26], 50);
     }
-    
+
     public double getPWR_Ieng() {
         return SentenceDataConvertor.getI(data[27], 100);
     }
-    
+
     public double getPWR_Ueng() {
-        return SentenceDataConvertor.getU(data[28])*0.86;
+        return SentenceDataConvertor.getU(data[28]) * 0.86;
     }
-    
+
     public double getPWR_UOUTcam() {
-        return SentenceDataConvertor.getU(data[29])*0.86;
+        return SentenceDataConvertor.getU(data[29]) * 0.86;
     }
-    
+
     public double getPWR_UOUT4() {
-        return SentenceDataConvertor.getU(data[30])*0.86;
+        return SentenceDataConvertor.getU(data[30]) * 0.86;
     }
-    
-    
     /*
-    private boolean testData() {
-        String strData = HexCodec.bytes2Hex(data);
-        for(int i=0;i<test.length;i++) {
-            if(test[i].equalsIgnoreCase(strData))
-                return true;
-        }
-        return false;
-    }*/
+     * private boolean testData() { String strData = HexCodec.bytes2Hex(data);
+     * for(int i=0;i<test.length;i++) { if(test[i].equalsIgnoreCase(strData))
+     * return true; } return false;
+    }
+     */
 
     /*
-    private int getNextDataIndex() {
-        if (dataIndex == data.length - 1) {
-            return dataIndex = 0;
-        }
-
-        return dataIndex++;
+     * private int getNextDataIndex() { if (dataIndex == data.length - 1) {
+     * return dataIndex = 0; }
+     *
+     * return dataIndex++; }
+     *
+     *
+     * private byte[] getNextData() { String[] dataStr =
+     * test[getNextDataIndex()].toLowerCase().split(" ");
+     *
+     * byte[] dataOut = new byte[dataStr.length];
+     *
+     * for (int i = 0; i < dataStr.length; i++) { dataOut[i] =
+     * HexCodec.hexToByte(dataStr[i]); }
+     *
+     * return dataOut;
     }
-
-
-    private byte[] getNextData() {
-        String[] dataStr = test[getNextDataIndex()].toLowerCase().split(" ");
-
-        byte[] dataOut = new byte[dataStr.length];
-
-        for (int i = 0; i < dataStr.length; i++) {
-            dataOut[i] = HexCodec.hexToByte(dataStr[i]);
-        }
-
-        return dataOut;
-    }*/
+     */
 }
