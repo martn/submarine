@@ -82,8 +82,7 @@ public class Gamepad {
             }
         }*/
         
-        if(newButtons[1]) {
-            
+        if(newButtons[1]) {            
             if(!buttons[1]) {
                 // just pressed
                 submarine.goDown();
@@ -94,10 +93,12 @@ public class Gamepad {
                 buttonsOverflow[1] = 0;
                 submarine.goDown();
             }
+        } else {
+            // zero overflow
+            buttonsOverflow[1] = 0;
         }
         
-        if(newButtons[3]) {
-            
+        if(newButtons[3]) {            
             if(!buttons[3]) {
                 // just pressed
                 submarine.goUp();
@@ -108,6 +109,9 @@ public class Gamepad {
                 buttonsOverflow[3] = 0;
                 submarine.goUp();
             }
+        } else {
+            // zero overflow
+            buttonsOverflow[3] = 0;
         }
         
         buttons = newButtons;
