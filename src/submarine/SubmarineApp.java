@@ -1025,7 +1025,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
             }
         });
 
-        PowerButton4.setText("12V");
+        PowerButton4.setText("Light");
         PowerButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PowerButton4ActionPerformed(evt);

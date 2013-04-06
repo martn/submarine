@@ -30,6 +30,7 @@ public class Submarine {
     public static final byte ADRESS_FUNCTION2 = 12;
     public static final byte ADRESS_PROGRAM = 13;
     public static final byte ADRESS_RESET = 14;
+    public static final byte ADRESS_LIGHT = 15;
     public static final int CAMERA_RELEASE_DELAY = 400;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
