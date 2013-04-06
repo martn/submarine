@@ -41,7 +41,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         //this.setLocationRelativeTo(null);
         config = new Configuration();
 
-        Util.log.logToTextArea(logTextArea);
+        //Util.log.logToTextArea(logTextArea);
         Util.log.logToConsole(true);
 
         // ============ INIT VISUALS =========================        
