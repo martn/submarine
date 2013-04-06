@@ -34,8 +34,11 @@ public class Submarine {
     public static final int CAMERA_RELEASE_DELAY = 400;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
-    public static final int ENGINE_LEFT = 0;
-    public static final int ENGINE_RIGHT = 1;
+    public static int ENGINE_LEFT = 0;
+    public static int ENGINE_RIGHT = 1;
+    public static int ENGINE_VERTICAL1 = 2;
+    public static int ENGINE_VERTICAL2 = 3;
+    public static int ENGINE_VERTICAL3 = 4;
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
     //private javax.swing.JLabel[] servoLabels;
@@ -73,7 +76,30 @@ public class Submarine {
             servo_position[i] = 0;
         }
         
+        // setup engines
+        setupEngines(config);
+        
         startPinging();        
+    }
+    
+    /**
+     * Setups engine addresses
+     * @param config 
+     */
+    private void setupEngines(Configuration config) {
+        ENGINE_LEFT = getEngineAddress(config, "engineLeft", ENGINE_LEFT);
+        ENGINE_RIGHT = getEngineAddress(config, "engineRight", ENGINE_RIGHT);
+        ENGINE_VERTICAL1 = getEngineAddress(config, "engineVertical1", ENGINE_VERTICAL1);
+        ENGINE_VERTICAL2 = getEngineAddress(config, "engineVertical2", ENGINE_VERTICAL2);
+        ENGINE_VERTICAL3 = getEngineAddress(config, "engineVertical3", ENGINE_VERTICAL3);
+        
+        System.out.println("Engines!!!!");
+        System.out.println(""+ENGINE_LEFT+" "+ENGINE_RIGHT+" "+ENGINE_VERTICAL1+" "+ENGINE_VERTICAL2+" "+ENGINE_VERTICAL3);
+    }
+    
+    private int getEngineAddress(Configuration config, String id, int defaultValue) {
+        String strValue = config.getProperty(id, "" + defaultValue);        
+        return Integer.parseInt(strValue)-1;
     }
     
     public void addCommandListener(CommandListener listener) {
@@ -259,9 +285,9 @@ public class Submarine {
      */
     public void goUp() {
         Util.log.write("Go up");
-        incrementEngineSpeed(2);
-        incrementEngineSpeed(3);
-        incrementEngineSpeed(4);
+        incrementEngineSpeed(ENGINE_VERTICAL1);
+        incrementEngineSpeed(ENGINE_VERTICAL2);
+        incrementEngineSpeed(ENGINE_VERTICAL3);
     }
 
     /**
@@ -271,9 +297,9 @@ public class Submarine {
      */
     public void goDown() {
         Util.log.write("Go down");
-        decrementEngineSpeed(2);
-        decrementEngineSpeed(3);
-        decrementEngineSpeed(4);
+        decrementEngineSpeed(ENGINE_VERTICAL1);
+        decrementEngineSpeed(ENGINE_VERTICAL2);
+        decrementEngineSpeed(ENGINE_VERTICAL3);
     }
 
     /**
