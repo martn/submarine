@@ -750,7 +750,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 43, Short.MAX_VALUE))
+                .addGap(0, 42, Short.MAX_VALUE))
         );
 
         jPanel2.add(SensorsPanel);
@@ -1085,7 +1085,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(PowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PowerButton5)
                     .addComponent(PowerButton6))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Load"));
@@ -1114,7 +1114,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jLabelVerticalEngines))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -1125,7 +1125,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1140,7 +1140,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
         MainTabPanel.addTab("Control", Control);
 
-        jPanel4.setName("");
+        jPanel4.setName(""); // NOI18N
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Reset"));
 
@@ -1212,7 +1212,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         MainTabPanel.addTab("Development", jPanel4);

@@ -1,5 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this template, choose Tools | Templates 
  * and open the template in the editor.
  */
 package submarine;
@@ -21,6 +21,7 @@ public class Submarine {
     public static final int ENGINE_RESOLUTION_V = 36; // resolution for vertical engines
     public static final int SERVO_RESOLUTION_H = 15;
     public static final int SERVO_RESOLUTION_V = 21;
+    
     public static final byte ADRESS_SERVOS = 6;
     public static final byte ADRESS_CAMERA = 8;
     public static final byte ADRESS_ENGINES = 1;
@@ -31,14 +32,19 @@ public class Submarine {
     public static final byte ADRESS_PROGRAM = 13;
     public static final byte ADRESS_RESET = 14;
     public static final byte ADRESS_LIGHT = 15;
+    
     public static final int CAMERA_RELEASE_DELAY = 400;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
+    
     public static int ENGINE_LEFT = 0;
     public static int ENGINE_RIGHT = 1;
     public static int ENGINE_VERTICAL1 = 2;
     public static int ENGINE_VERTICAL2 = 3;
     public static int ENGINE_VERTICAL3 = 4;
+    
+    public static int[] ENGINE_POLARITIES = new int[5];    
+    
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
     //private javax.swing.JLabel[] servoLabels;
@@ -92,14 +98,35 @@ public class Submarine {
         ENGINE_VERTICAL1 = getEngineAddress(config, "engineVertical1", ENGINE_VERTICAL1);
         ENGINE_VERTICAL2 = getEngineAddress(config, "engineVertical2", ENGINE_VERTICAL2);
         ENGINE_VERTICAL3 = getEngineAddress(config, "engineVertical3", ENGINE_VERTICAL3);
-        
+                
         System.out.println("Engines!!!!");
         System.out.println(""+ENGINE_LEFT+" "+ENGINE_RIGHT+" "+ENGINE_VERTICAL1+" "+ENGINE_VERTICAL2+" "+ENGINE_VERTICAL3);
+        
+        setupEnginePolarities(config);
     }
     
     private int getEngineAddress(Configuration config, String id, int defaultValue) {
-        String strValue = config.getProperty(id, "" + defaultValue);        
-        return Integer.parseInt(strValue)-1;
+        int[] value = getEngineConfig(config, id, defaultValue+":"+0);
+        return value[0]-1;
+    }
+    
+    private void setupEnginePolarities(Configuration config) {
+        String[] ids = "engineLeft engineRight engineVertical1 engineVertical2 engineVertical3".split(" ");
+        for(int i=0;i<5;i++) {
+            String id = ids[i];
+            int[] cfg;
+            cfg = getEngineConfig(config, id, (i+1)+":"+0);
+            ENGINE_POLARITIES[cfg[0]-1] = cfg[1]*2-1; // this will make it -1 or 1
+        }
+    }
+    
+    private int[] getEngineConfig(Configuration config, String id, String defaultVal) {
+        String cfg = config.getProperty(id, defaultVal);
+        String[] strval = cfg.split(":");
+        int[] val = new int[2];
+        val[0] = Integer.parseInt(strval[0]);
+        val[1] = Integer.parseInt(strval[1]);
+        return val;
     }
     
     public void addCommandListener(CommandListener listener) {
@@ -324,8 +351,8 @@ public class Submarine {
                 //System.out.println(speed);
 
                 port.setAdress((byte) (ADRESS_ENGINES + id));
-
-                int polarity = speed < 0 ? 64 : 0;
+                                
+                int polarity = (speed*ENGINE_POLARITIES[id]) < 0 ? 64 : 0;
                 port.setData((byte) (polarity | (Math.abs(speed) * 63 / resolution)));
                 
                 fireCommandEvent(new CommandEvent(this, "engine", id, speed));
