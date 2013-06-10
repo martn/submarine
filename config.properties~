@@ -1,0 +1,11 @@
+# COM port
+portId = com9
+
+# Engines
+engineLeft = 2:1
+engineRight = 1:0
+engineVertical1 = 5:1
+engineVertical2 = 4:0
+engineVertical3 = 3:0
+
+
