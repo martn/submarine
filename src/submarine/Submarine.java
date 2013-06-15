@@ -33,7 +33,7 @@ public class Submarine {
     public static final byte ADRESS_RESET = 14;
     public static final byte ADRESS_LIGHT = 15;
     
-    public static final int CAMERA_RELEASE_DELAY = 1000;
+    public static final int CAMERA_RELEASE_DELAY = 2000;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
     
@@ -43,7 +43,8 @@ public class Submarine {
     public static int ENGINE_VERTICAL2 = 3;
     public static int ENGINE_VERTICAL3 = 4;
     
-    public static int[] ENGINE_POLARITIES = new int[5];    
+    public static int[] ENGINE_POLARITIES = new int[5];   
+    public static double ENGINE_H_DEAD_ZONE = 0.2;
     
     private int[] engine_speeds = new int[5];
     private int[] servo_position = new int[2];
@@ -260,6 +261,15 @@ public class Submarine {
      * @param y -1~1
      */
     public void joystick2Engines(float x, float y) {
+        
+        // dead zone 
+        // x
+        float f = (float)ENGINE_H_DEAD_ZONE;
+        float k = 1/(1-f);
+        float q = f/(f-1);
+        
+        x = Math.signum(x) * Math.max(0, k*Math.abs(x)+q);        
+        
         float leftValue, rightValue;
         if (x * y >= 0) {
             leftValue = computeEngineCompoundValue(x, y);
