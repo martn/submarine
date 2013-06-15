@@ -308,7 +308,7 @@ public class Submarine {
         int h_old = servo_position[SERVO_HORIZONTAL];
         int v_old = servo_position[SERVO_VERTICAL];
 
-        int h = setServoPosition(SERVO_HORIZONTAL, (int) Math.floor(-x * SERVO_RESOLUTION_H));
+        int h = setServoPosition(SERVO_HORIZONTAL, (int) Math.floor(-x * SERVO_RESOLUTION_H)-1/SERVO_RESOLUTION_H);
         int v = setServoPosition(SERVO_VERTICAL, (int) Math.floor(y * SERVO_RESOLUTION_V));
 
         if (h_old != h || v_old != v) {
