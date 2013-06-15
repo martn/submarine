@@ -33,7 +33,7 @@ public class Submarine {
     public static final byte ADRESS_RESET = 14;
     public static final byte ADRESS_LIGHT = 15;
     
-    public static final int CAMERA_RELEASE_DELAY = 400;
+    public static final int CAMERA_RELEASE_DELAY = 1000;
     public static final int SERVO_HORIZONTAL = 0;
     public static final int SERVO_VERTICAL = 1;
     
@@ -230,6 +230,7 @@ public class Submarine {
      * release all camera buttons
      */
     public void releaseCameraButtons() {
+        System.out.println("Released");
         port.setAdress(ADRESS_CAMERA);
         port.setData((byte) 0);
     }

@@ -21,6 +21,7 @@ public class CameraButtonReleaseTask extends TimerTask {
     }
 
     
+    @Override
     public void run() {
         subObject.releaseCameraButtons();
     }

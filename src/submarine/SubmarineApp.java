@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Timer;
 import javax.swing.ImageIcon;
 import submarine.communication.*;
 
@@ -84,7 +85,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
             submarine.getPort().addReadListener(this);
             submarine.getPort().addConnectionListener(this);
-            
+
             submarine.addCommandListener(this);
 
             // Initial settings            
@@ -98,7 +99,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
             submarine.setServoPosition(0, 0);
             submarine.setServoPosition(1, 0);
-            
+
         } catch (PortNotFoundException e) {
             Util.log.write("Port Not Found");
         }
@@ -118,13 +119,13 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         URL iconUrl = this.getClass().getResource(evt.connected ? "resources/accept.png" : "resources/exclamation.png");
         Status.setIcon(new ImageIcon(iconUrl));
     }
-    
+
     @Override
     public void CommandOccurred(CommandEvent evt) {
-        if("engine".equals(evt.type)) {
-            if(evt.id == 2) {                
-                int p = Math.round(100*evt.value/Submarine.ENGINE_RESOLUTION_V);
-                jLabelVerticalEngines.setText(p+"%");
+        if ("engine".equals(evt.type)) {
+            if (evt.id == 2) {
+                int p = Math.round(100 * evt.value / Submarine.ENGINE_RESOLUTION_V);
+                jLabelVerticalEngines.setText(p + "%");
             }
         }
     }
@@ -139,7 +140,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         jTextFieldBat2.setText(decimalFormat2.format(getSensors().getServoVoltage()));
 
         jTextFieldDepth.setText(decimalFormat3.format(getSensors().getDepth()));
-        
+
         jTextFieldAccelX.setText(decimalFormat0.format(getSensors().getAccelX()));
         jTextFieldAccelY.setText(decimalFormat0.format(getSensors().getAccelY()));
         jTextFieldAccelZ.setText(decimalFormat0.format(getSensors().getAccelZ()));
@@ -222,7 +223,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         MainTabPanel = new javax.swing.JTabbedPane();
         Control = new javax.swing.JPanel();
         CameraPanel = new javax.swing.JPanel();
-        cameraButton12_F = new javax.swing.JButton();
         cameraButton16_Power = new javax.swing.JButton();
         cameraButton13_FPlus = new javax.swing.JButton();
         cameraButton15_ZoomMinus = new javax.swing.JButton();
@@ -237,6 +237,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         cameraButton8_Ok = new javax.swing.JButton();
         cameraButton3_Menu = new javax.swing.JButton();
         cameraButton4_Cancel = new javax.swing.JButton();
+        cameraButton12_F = new javax.swing.JToggleButton();
         jPanel9 = new javax.swing.JPanel();
         PowerPanel = new javax.swing.JPanel();
         PowerButton1 = new javax.swing.JToggleButton();
@@ -287,7 +288,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -742,7 +743,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         SensorsPanelLayout.setVerticalGroup(
             SensorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -762,16 +763,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
         CameraPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Camera"));
         CameraPanel.setPreferredSize(new java.awt.Dimension(220, 180));
-
-        cameraButton12_F.setText("F");
-        cameraButton12_F.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                cameraButton12_FMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                cameraButton12_FMouseReleased(evt);
-            }
-        });
 
         cameraButton16_Power.setText("q");
         cameraButton16_Power.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -913,6 +904,16 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
             }
         });
 
+        cameraButton12_F.setText("F");
+        cameraButton12_F.setMaximumSize(new java.awt.Dimension(43, 23));
+        cameraButton12_F.setMinimumSize(new java.awt.Dimension(43, 23));
+        cameraButton12_F.setPreferredSize(new java.awt.Dimension(43, 23));
+        cameraButton12_F.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cameraButton12_FActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout CameraPanelLayout = new javax.swing.GroupLayout(CameraPanel);
         CameraPanel.setLayout(CameraPanelLayout);
         CameraPanelLayout.setHorizontalGroup(
@@ -922,18 +923,17 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cameraButton11_Rec)
                     .addGroup(CameraPanelLayout.createSequentialGroup()
-                        .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cameraButton3_Menu, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, CameraPanelLayout.createSequentialGroup()
-                                .addComponent(cameraButton12_F)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cameraButton16_Power))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, CameraPanelLayout.createSequentialGroup()
-                                .addComponent(cameraButton15_ZoomMinus)
+                        .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cameraButton3_Menu)
+                            .addGroup(CameraPanelLayout.createSequentialGroup()
+                                .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cameraButton12_F, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                                    .addComponent(cameraButton15_ZoomMinus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cameraButton6_Up)
-                                    .addComponent(cameraButton10_Shot))))
+                                    .addComponent(cameraButton10_Shot)
+                                    .addComponent(cameraButton16_Power, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(4, 4, 4)
                         .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cameraButton13_FPlus)
@@ -950,15 +950,15 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        CameraPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
+        CameraPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
 
         CameraPanelLayout.setVerticalGroup(
             CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CameraPanelLayout.createSequentialGroup()
                 .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cameraButton12_F)
                     .addComponent(cameraButton16_Power)
-                    .addComponent(cameraButton13_FPlus))
+                    .addComponent(cameraButton13_FPlus)
+                    .addComponent(cameraButton12_F, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(CameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cameraButton15_ZoomMinus)
@@ -987,7 +987,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGap(17, 17, 17))
         );
 
-        CameraPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton12_F, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
+        CameraPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cameraButton10_Shot, cameraButton11_Rec, cameraButton13_FPlus, cameraButton14_ZoomPlus, cameraButton15_ZoomMinus, cameraButton16_Power, cameraButton1_Left, cameraButton2_Down, cameraButton3_Menu, cameraButton4_Cancel, cameraButton5_Right, cameraButton6_Up, cameraButton7_Play, cameraButton8_Ok});
 
         Control.add(CameraPanel);
 
@@ -1125,7 +1125,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1203,7 +1203,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addContainerGap(328, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1288,16 +1288,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         submarine.setPowerConfig(7, PowerButton7.isSelected());
     }//GEN-LAST:event_PowerButton7ActionPerformed
 
-    private void cameraButton12_FMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cameraButton12_FMousePressed
-        // TODO add your handling code here:
-        submarine.pushCameraButton(12);
-    }//GEN-LAST:event_cameraButton12_FMousePressed
-
-    private void cameraButton12_FMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cameraButton12_FMouseReleased
-        // TODO add your handling code here:
-        submarine.releaseCameraButtons();
-    }//GEN-LAST:event_cameraButton12_FMouseReleased
-
     private void cameraButton16_PowerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cameraButton16_PowerMousePressed
         // TODO add your handling code here:
         submarine.pushCameraButton(16);
@@ -1310,11 +1300,20 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
 
     private void cameraButton13_FPlusMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cameraButton13_FPlusMousePressed
         // TODO add your handling code here:
+        if (!cameraButton12_F.isSelected()) {
+            // automatic focus
+            submarine.pushCameraButton(12);
+            Timer timer = new Timer();
+            timer.schedule(new CameraButtonReleaseTask(submarine), Submarine.CAMERA_RELEASE_DELAY);
+        }
         submarine.pushCameraButton(13);
     }//GEN-LAST:event_cameraButton13_FPlusMousePressed
 
     private void cameraButton13_FPlusMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cameraButton13_FPlusMouseReleased
         // TODO add your handling code here:
+        if (cameraButton12_F.isSelected()) {
+            cameraButton12_F.setSelected(false);
+        }
         submarine.releaseCameraButtons();
     }//GEN-LAST:event_cameraButton13_FPlusMouseReleased
 
@@ -1474,6 +1473,14 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
         submarine.getSensors().resetDepth();
     }//GEN-LAST:event_jButtonDepthZeroActionPerformed
 
+    private void cameraButton12_FActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cameraButton12_FActionPerformed
+        if (cameraButton12_F.isSelected()) {
+            submarine.pushCameraButton(12);
+        } else {
+            submarine.releaseCameraButtons();
+        }
+    }//GEN-LAST:event_cameraButton12_FActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1503,7 +1510,6 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 new SubmarineApp().setVisible(true);
@@ -1527,7 +1533,7 @@ public class SubmarineApp extends javax.swing.JFrame implements ReadListener, Co
     private javax.swing.JLabel Status;
     private javax.swing.JButton cameraButton10_Shot;
     private javax.swing.JButton cameraButton11_Rec;
-    private javax.swing.JButton cameraButton12_F;
+    private javax.swing.JToggleButton cameraButton12_F;
     private javax.swing.JButton cameraButton13_FPlus;
     private javax.swing.JButton cameraButton14_ZoomPlus;
     private javax.swing.JButton cameraButton15_ZoomMinus;
